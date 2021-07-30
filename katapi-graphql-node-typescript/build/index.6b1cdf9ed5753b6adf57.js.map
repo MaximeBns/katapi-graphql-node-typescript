@@ -1,0 +1,1 @@
+{"version":3,"file":"index.8c09dd4ff93c05e0f7b4.hot-update.js","sources":["../src/resolvers.ts"],"sourcesContent":["interface Subject {\nsubject: string\n}\n\nexport default {\n  Query: {\n    hello(obj: any, { subject }:  {\n      return `Hello, ${subject}! from Server`;\n    }\n  }\n};\n"],"mappings":";;;;;;;;AAIA;AAAA;AACA;AAEA;AACA;AACA;AACA;;;;;A","sourceRoot":""}
