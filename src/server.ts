@@ -6,16 +6,15 @@ import cors from 'cors';
 import schema from '../src/schema/schema';
 
 const app = express();
-const server = new ApolloServer({
-    //@ts-ignore
-    schema,
-});
-
-// @ts-ignore
 app.use('*', cors());
 app.use(compression());
-server.applyMiddleware({ app, path: '/graphql' });
 const httpServer = createServer(app);
+
+const server = new ApolloServer({
+    schema,
+});
+server.start().then(r => server.applyMiddleware({ app, path: '/graphql' }));
+
 httpServer.listen(
     { port: 3000 },
     (): void => console.log(`\n🚀      GraphQL is now running on http://localhost:3000/graphql`));
