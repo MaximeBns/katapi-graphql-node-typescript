@@ -3,7 +3,7 @@ import * as GraphiQL from 'apollo-server-module-graphiql';
 import * as cors from 'cors';
 import * as express from 'express';
 
-import schema from './application/schema';
+import schema from './catalogue/application/schema';
 
 import { execute, subscribe } from 'graphql';
 import { createServer, Server } from 'http';
