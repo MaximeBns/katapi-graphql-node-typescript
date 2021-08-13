@@ -1,0 +1,6 @@
+type Produit {
+    id: String!
+    nom: String!
+    prix: Float!
+    poids: Float!
+}

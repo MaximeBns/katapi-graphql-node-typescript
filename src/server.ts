@@ -3,7 +3,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { createServer } from 'http';
 import compression from 'compression';
 import cors from 'cors';
-import schema from '../src/schema/schema';
+import schema from './catalogue/application/schema';
 
 const app = express();
 app.use('*', cors());

@@ -2,7 +2,7 @@ import { IResolvers } from "@graphql-tools/utils";
 
 const resolverMap: IResolvers = {
     Query: {
-        helloWorld(_: void): string {
+        recupererLesProduits(_: void): String {
             return `👋 Hello world! 👋`;
         },
     },
