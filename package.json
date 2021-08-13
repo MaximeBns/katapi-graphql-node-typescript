@@ -28,6 +28,7 @@
     "@types/graphql": "^14.5.0",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.13",
+    "apollo": "^2.33.6",
     "graphql-import": "^1.0.2",
     "graphql-import-node": "^0.0.4",
     "graphql-tools": "^8.1.0",

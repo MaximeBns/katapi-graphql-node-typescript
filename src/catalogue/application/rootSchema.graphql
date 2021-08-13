@@ -1,3 +1,23 @@
 type Query {
     recupererLesProduits: [Produit]!
 }
+
+type Mutation {
+    sauvegarderProduit(produit: ProduitInput): Produit
+}
+
+input ProduitInput {
+    nom: String!
+    prix: Float!
+    poids: Float!
+}
+
+type Produit {
+    id: String!
+    nom: String!
+    prix: Float!
+    poids: Float!
+}
+
+
+

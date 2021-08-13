@@ -15,7 +15,6 @@ export default class Produit {
 
     static creer(nom: string, prix: number, poids: number): Produit {
         if (nom.length < Produit.TAILLE_NOM_MINIMUM) throw new Error("Le nom du produit est trop court");
-
         return new Produit("", nom, prix, poids)
     }
 }

@@ -1,5 +1,5 @@
-import Produit from "../domain/entities/produit";
 import ProduitPort from "../domain/ports/produitPort";
+import Produit from "../domain/entities/produit";
 
 export default class CreerUnProduit {
     produitPort: ProduitPort;
@@ -8,7 +8,8 @@ export default class CreerUnProduit {
         this.produitPort = produitPort;
     }
 
-    exécuter(produitACréer: Produit) {
-        return this.produitPort.sauvegarderProduit(produitACréer);
+    exécuter(nom: string, prix: number, poids: number): Produit {
+        const produitCréé = Produit.creer(nom, prix, poids)
+        return this.produitPort.sauvegarderProduit(produitCréé);
     }
 }
