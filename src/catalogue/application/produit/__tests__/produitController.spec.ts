@@ -7,7 +7,26 @@ import ProduitAdapter from "../../../infrastructure/adapter/ProduitAdapter";
 import CreerUnProduit from "../../../usecases/creerUnProduit";
 
 //https://gist.github.com/nzaghini/e038ff05c60bc2c5435f8331f890cea4
+const produitAdapter = new ProduitAdapter()
+const recupererProduit = {
+  exécuter: jest.fn().mockReturnValue([{
+      id: "",
+      nom: "Pomme",
+      poids: 200,
+      prix: 1
+    }]
+  )
+} as any;
+const creerProduit = new CreerUnProduit(produitAdapter)
+const resolvers = new Resolver(recupererProduit, creerProduit).getResolvers()
+
+const typeDefs = fs.readFileSync('./src/catalogue/application/rootSchema.graphql', 'utf8')
+const schema = makeExecutableSchema({typeDefs, resolvers})
+
 describe('ProduitController', () => {
+  beforeEach(() => {
+
+  });
   it("recupererLesProduits()", async () => {
     //given
     const query =  `
@@ -20,21 +39,7 @@ describe('ProduitController', () => {
         }
       }
     `
-    const produitAdpater = new ProduitAdapter()
-    const recupererProduit = {
-      exécuter: jest.fn().mockReturnValue([{
-            id: "",
-            nom: "Pomme",
-            poids: 200,
-            prix: 1
-          }]
-      )
-    } as any;
 
-    const creerProduit = new CreerUnProduit(produitAdpater)
-    const resolvers = new Resolver(recupererProduit, creerProduit).getResolvers()
-    const typeDefs = fs.readFileSync('./src/catalogue/application/rootSchema.graphql', 'utf8')
-    const schema = makeExecutableSchema({typeDefs, resolvers})
 
     // when
     const result = await graphql(schema, query, null, null, null)
@@ -54,4 +59,31 @@ describe('ProduitController', () => {
     }
     return expect(result).toEqual(expected)
   })
+  it("recupererUnProduit()", async () => {
+    // given
+    const query =  `
+      query Query {
+        recupererLeProduit(id:"1") {
+          id
+          prix
+          nom
+          poids
+        }
+      }
+    `
+    // when
+    const result = await graphql(schema, query, null, null, null)
+    // then
+    const expected = {
+      data: {
+        recupererLeProduit: {
+          id: "1",
+          nom: "Pomme",
+          poids: 200,
+          prix: 1
+        }
+      }
+    }
+    expect(result).toEqual(expected)
+  });
 })

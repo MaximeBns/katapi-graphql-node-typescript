@@ -3,10 +3,11 @@ import ProduitOutputApi from "./produit/ProduitOutputApi";
 import RecupererLesProduits from "../usecases/recupererLesProduits";
 import CreerUnProduit from "../usecases/creerUnProduit";
 import { Container, Service } from "typedi";
+import RecupererLeProduit from "../usecases/recupererLeProduit";
 
 @Service()
 class Resolver {
-    constructor(private récupérerLesProduits: RecupererLesProduits, private creerUnProduit: CreerUnProduit) {}
+    constructor(private récupérerLesProduits: RecupererLesProduits, private récupérerLeProduit: RecupererLeProduit, private creerUnProduit: CreerUnProduit) {}
 
     getResolvers() : IResolvers {
         const _this = this;
@@ -16,6 +17,9 @@ class Resolver {
                 recupererLesProduits(_: void) : ProduitOutputApi[]{
                     return _this.récupérerLesProduits.exécuter()
                 },
+                recupererLeProduit(_:void,{id, ...args}): ProduitOutputApi {
+                  return _this.récupérerLeProduit.exécuter(id)
+                }
             },
             Mutation: {
                 sauvegarderProduit(_: void,  {produit, ...args}): ProduitOutputApi {

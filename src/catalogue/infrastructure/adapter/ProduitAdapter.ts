@@ -14,4 +14,8 @@ export default class ProduitAdapter implements ProduitPort {
     récupérerLesProduits(): Array<Produit> {
         return this.listeProduit;
     }
+
+    récupérerLeProduit(id:string): Produit {
+        return this.listeProduit.find(produit => produit.id === id)
+    }
 }

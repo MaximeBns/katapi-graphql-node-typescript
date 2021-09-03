@@ -44,4 +44,26 @@ describe("ProduitAdapter", () => {
             expect(produitsRécupérés).toContainEqual(produitAttendu);
         });
     });
+  describe("récupérerLeProduit quand on veut récupérer un produit", () => {
+    // given
+    const produitAdapter = new ProduitAdapter()
+    produitAdapter.listeProduit = [{
+      id: "1",
+      nom: "Pastèque",
+      prix: 20,
+      poids: 5,
+    }];
+
+    // when
+    const produitRécupéré = produitAdapter.récupérerLeProduit("1");
+
+    // then
+    const produitAttendu = {
+      id: "1",
+      nom: "Pastèque",
+      prix: 20,
+      poids: 5,
+    };
+    expect(produitRécupéré).toEqual(produitAttendu);
+  });
 });

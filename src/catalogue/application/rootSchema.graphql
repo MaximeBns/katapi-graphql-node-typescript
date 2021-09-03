@@ -1,5 +1,6 @@
 type Query {
     recupererLesProduits: [Produit]!
+    recupererLeProduit(id:String!): Produit
 }
 
 type Mutation {
