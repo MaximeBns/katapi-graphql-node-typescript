@@ -1,6 +1,7 @@
 import Produit from "../../domain/entities/produit";
 import CreerUnProduit from "../creerUnProduit";
 import produitPortTest from "./helper/PortsTests";
+import ProduitAdapter from "../../infrastructure/adapter/ProduitAdapter";
 
 describe('creerUnProduit', () => {
     describe('exécuter : quand on créé un produit', () => {
@@ -16,7 +17,7 @@ describe('creerUnProduit', () => {
             produitPort.sauvegarderProduit = jest.fn().mockReturnValue(produitSauvegardé)
 
             // when
-            const produitRetourné = new CreerUnProduit(produitPort).exécuter("Pomme", 200, 1);
+            const produitRetourné = new CreerUnProduit(produitPort as ProduitAdapter).exécuter("Pomme", 200, 1);
 
             // then
             expect(produitRetourné).toEqual(produitSauvegardé);
