@@ -18,7 +18,9 @@
     "http": "^0.0.1-security",
     "ncp": "^2.0.0",
     "nodemon": "^2.0.12",
+    "reflect-metadata": "^0.1.13",
     "ts-node": "^10.1.0",
+    "typedi": "^0.10.0",
     "typescript": "^4.3.5"
   },
   "devDependencies": {

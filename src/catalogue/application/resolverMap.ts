@@ -1,25 +1,29 @@
 import { IResolvers } from "@graphql-tools/utils";
 import ProduitOutputApi from "./produit/ProduitOutputApi";
 import RecupererLesProduits from "../usecases/recupererLesProduits";
-import ProduitPort from "../domain/ports/produitPort";
-import ProduitAdapter from "../infrastructure/adapter/ProduitAdapter";
 import CreerUnProduit from "../usecases/creerUnProduit";
+import { Container, Service } from "typedi";
 
-const produitPort : ProduitPort = new ProduitAdapter()
-const recupererProduit = new RecupererLesProduits(produitPort)
-const creerUnProduit = new CreerUnProduit(produitPort)
+@Service()
+class Resolver {
+    constructor(private récupérerLesProduits: RecupererLesProduits, private creerUnProduit: CreerUnProduit) {}
 
-const resolverMap: IResolvers = {
-    Query: {
-        recupererLesProduits(_: void) : ProduitOutputApi[]{
-            return recupererProduit.exécuter()
-        },
-    },
-    Mutation: {
-        sauvegarderProduit(_: void,  {produit, ...args}): ProduitOutputApi {
-            return creerUnProduit.exécuter(produit.nom, produit.prix, produit.poids)
-        }
+    getResolvers() : IResolvers {
+        const _this = this;
+
+        return {
+            Query: {
+                recupererLesProduits(_: void) : ProduitOutputApi[]{
+                    return _this.récupérerLesProduits.exécuter()
+                },
+            },
+            Mutation: {
+                sauvegarderProduit(_: void,  {produit, ...args}): ProduitOutputApi {
+                    return _this.creerUnProduit.exécuter(produit.nom, produit.prix, produit.poids)
+                }
+            }
+        };
     }
-};
+}
 
-export default resolverMap;
+export default Resolver;

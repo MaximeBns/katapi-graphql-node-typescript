@@ -1,10 +1,13 @@
 import ProduitPort from "../domain/ports/produitPort";
 import Produit from "../domain/entities/produit";
+import { Service } from "typedi";
+import ProduitAdapter from "../infrastructure/adapter/ProduitAdapter";
 
+@Service()
 export default class CreerUnProduit {
     produitPort: ProduitPort;
 
-    constructor(produitPort: ProduitPort) {
+    constructor(produitPort: ProduitAdapter) {
         this.produitPort = produitPort;
     }
 

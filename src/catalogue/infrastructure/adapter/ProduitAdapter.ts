@@ -1,6 +1,8 @@
 import ProduitPort from "../../domain/ports/produitPort";
 import Produit from "../../domain/entities/produit";
+import { Service } from "typedi";
 
+@Service()
 export default class ProduitAdapter implements ProduitPort {
     listeProduit: Produit[] = []
 
