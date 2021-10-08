@@ -1,5 +1,5 @@
 type Query {
-    recupererLesProduits: [Produit]!
+    recupererLesProduits(filter:String): [Produit]!
     recupererLeProduit(id:String!): Produit
 }
 
