@@ -4,9 +4,11 @@ import {graphql} from 'graphql'
 import Resolver from "../../resolverMap";
 import ProduitAdapter from "../../../infrastructure/adapter/ProduitAdapter";
 import CreerUnProduit from "../../../usecases/creerUnProduit";
+import {Connection} from "typeorm";
 
 //https://gist.github.com/nzaghini/e038ff05c60bc2c5435f8331f890cea4
-const produitAdapter = new ProduitAdapter()
+const sqliteClient = {}
+const produitAdapter = new ProduitAdapter(sqliteClient as Connection)
 const recupererProduit = {
   exécuter: jest.fn().mockReturnValue([{
       id: "",

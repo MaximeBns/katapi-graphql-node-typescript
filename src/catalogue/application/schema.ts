@@ -1,10 +1,15 @@
 import 'graphql-import-node';
 import * as typeDefs from './rootSchema.graphql';
 import {makeExecutableSchema} from 'graphql-tools';
-import { Container } from "typedi";
 import Resolver from "./resolverMap";
+import {createSqliteConnection} from "../../configuration/database/createConntection";
+import {createServerDependenciesContainer} from "../../configuration/serverDependencyContainer";
 
-export const resolvers = Container.get(Resolver).getResolvers();
+// @ts-ignore
+const sqliteConnexion = await createSqliteConnection()
+export const serverDependencyContainer = createServerDependenciesContainer(sqliteConnexion)
+
+export const resolvers = new Resolver(serverDependencyContainer).getResolvers()
 const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
