@@ -5,7 +5,7 @@ describe('produit', () => {
         it('alors retourne un objet Produit', () => {
             // given
             const produitAttendu: Produit = {
-                id: "",
+                id: "1",
                 nom: "Pastèque",
                 prix: 20,
                 poids: 5,
