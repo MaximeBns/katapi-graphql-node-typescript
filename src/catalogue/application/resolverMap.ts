@@ -4,6 +4,7 @@ import RecupererLesProduits from "../usecases/recupererLesProduits";
 import CreerUnProduit from "../usecases/creerUnProduit";
 import { Container, Service } from "typedi";
 import RecupererLeProduit from "../usecases/recupererLeProduit";
+import {filter} from "compression";
 
 @Service()
 class Resolver {
@@ -14,7 +15,7 @@ class Resolver {
 
         return {
             Query: {
-                recupererLesProduits(_: void) : ProduitOutputApi[]{
+                recupererLesProduits(_: void, {...args}) : ProduitOutputApi[]{
                     return _this.récupérerLesProduits.exécuter()
                 },
                 recupererLeProduit(_:void,{id, ...args}): ProduitOutputApi {

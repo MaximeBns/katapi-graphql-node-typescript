@@ -11,7 +11,11 @@ export default class RecupererLesProduits {
         this.produitPort = produitPort;        // https://github.com/typestack/typedi/issues/70
     }
 
-    exécuter(): Array<Produit> {
-        return this.produitPort.récupérerLesProduits();
+    exécuter(filter?:string): Array<Produit> {
+        const produitsNonFiltres =  this.produitPort.récupérerLesProduits();
+        return filter
+            ? produitsNonFiltres.filter(produit => produit.nom.toLowerCase()
+                .includes(filter.toLowerCase()))
+            : produitsNonFiltres;
     }
 }
