@@ -1,12 +1,11 @@
 import ProduitPort from "../../domain/ports/produitPort";
 import Produit from "../../domain/entities/produit";
-import { Service } from "typedi";
-import {Connection} from "typeorm";
 
-@Service()
 export default class ProduitAdapter implements ProduitPort {
     listeProduit: Produit[]
-    constructor(connection: Connection) {
+
+    constructor() {
+        this.listeProduit = []
     }
 
     sauvegarderProduit(produit: Produit): Produit {
@@ -18,7 +17,7 @@ export default class ProduitAdapter implements ProduitPort {
         return this.listeProduit
     }
 
-    récupérerLeProduit(id:string): Produit {
+    récupérerLeProduit(id: string): Produit {
         return this.listeProduit.find(produit => produit.id === id)
     }
 }

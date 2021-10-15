@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import express from 'express';
 import {ApolloServer} from 'apollo-server-express';
 import {createServer} from 'http';
@@ -7,7 +6,7 @@ import cors from 'cors';
 import 'graphql-import-node';
 import * as typeDefs from './catalogue/application/rootSchema.graphql';
 import {makeExecutableSchema} from 'graphql-tools';
-import {createSqliteConnection} from "./configuration/database/createConntection";
+import {createSqliteConnection} from "./configuration/database/createConnection";
 import {createServerDependenciesContainer} from "./configuration/serverDependencyContainer";
 import Resolver from "./catalogue/application/resolverMap";
 

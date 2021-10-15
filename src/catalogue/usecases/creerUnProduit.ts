@@ -2,9 +2,7 @@ import ProduitPort from "../domain/ports/produitPort";
 import Produit from "../domain/entities/produit";
 
 export default class CreerUnProduit {
-	produitPort: ProduitPort;
-
-	constructor(produitPort: ProduitPort) {
+	constructor(private produitPort: ProduitPort) {
 		this.produitPort = produitPort;
 	}
 

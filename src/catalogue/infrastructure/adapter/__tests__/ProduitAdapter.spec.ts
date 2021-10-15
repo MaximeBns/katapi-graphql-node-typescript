@@ -1,7 +1,5 @@
 import Produit from "../../../domain/entities/produit";
 import ProduitAdapter from "../ProduitAdapter";
-import produitPortTest from "../../../usecases/__tests__/helper/PortsTests";
-import RecupererLesProduits from "../../../usecases/recupererLesProduits";
 
 describe("ProduitAdapter", () => {
 	describe("sauvegarderProduit quand on sauvegarde un produit", () => {
