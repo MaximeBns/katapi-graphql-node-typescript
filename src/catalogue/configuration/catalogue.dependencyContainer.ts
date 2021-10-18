@@ -1,7 +1,7 @@
 import RecupererLeProduit from "../usecases/recupererLeProduit";
 import RecupererLesProduits from "../usecases/recupererLesProduits";
 import CreerUnProduit from "../usecases/creerUnProduit";
-import ProduitAdapter from "../infrastructure/adapter/ProduitAdapter";
+import ProduitPort from "../domain/ports/produitPort";
 
 
 export type CatalogueDependencyContainer = {
@@ -10,11 +10,10 @@ export type CatalogueDependencyContainer = {
 	creerUnProduit: CreerUnProduit,
 };
 
-export default function CreateCatalogueDependencyContainer(): CatalogueDependencyContainer {
-	const produitAdapter = new ProduitAdapter()
-	const recupererLeProduitUseCase = new RecupererLeProduit(produitAdapter)
-	const recupererLesProduitsUseCase = new RecupererLesProduits(produitAdapter)
-	const creerUnProduit = new CreerUnProduit(produitAdapter)
+export default function createCatalogueDependencyContainer(produitPort: ProduitPort): CatalogueDependencyContainer {
+	const recupererLeProduitUseCase = new RecupererLeProduit(produitPort)
+	const recupererLesProduitsUseCase = new RecupererLesProduits(produitPort)
+	const creerUnProduit = new CreerUnProduit(produitPort)
 	return {
 		recupererLeProduit: recupererLeProduitUseCase,
 		recupererLesProduits: recupererLesProduitsUseCase,
