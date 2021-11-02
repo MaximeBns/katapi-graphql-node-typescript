@@ -1,11 +1,12 @@
 type Query {
-    recupererLesProduits(filter:String): ResultatListeProduit!
+    recupererLesProduits(filter: ProduitFilter): ResultatListeProduit!
     recupererLeProduit(id:String!): ResultatProduit
 }
 
 type Mutation {
     sauvegarderProduit(produit: ProduitInput): Produit
 }
+
 
 input ProduitInput {
     nom: String!
@@ -30,3 +31,18 @@ type Produit {
     prix: Float!
     poids: Float!
 }
+
+input ProduitFilter {
+    by: String! = "name"
+    order: OrderType! = "ASC"
+    contains: String
+    limit: Int
+}
+
+enum OrderType {
+    ASC
+    DESC
+}
+
+
+

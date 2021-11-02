@@ -3,15 +3,17 @@ import ProduitOutputApi from "./produit/ProduitOutputApi";
 import { CatalogueDependencyContainer } from "../configuration/catalogue.dependencyContainer";
 import {ServerDependencyContainer} from "../../configuration/serverDependencyContainer";
 
-class Resolver {
-	constructor(private serverDependenciesContainer: ServerDependencyContainer) {
-	}
+//Todo: transformer cela en function
+export class Resolver {
 
-	getResolvers(): IResolvers {
-		const _this = this;
-		return {
-			Query: {
-				recupererLesProduits(_: void, {filter, ...args}) {
+  constructor(private serverDependenciesContainer: ServerDependencyContainer) {
+  }
+
+  getResolvers(): IResolvers {
+    const _this = this;
+    return {
+      Query: {
+        recupererLesProduits(parent, {filter}, context, info) {
           const listeProduit = _this.serverDependenciesContainer.catalogueDependencyContainer.recupererLesProduits.exécuter(filter)
           if(listeProduit.length){
             return {
@@ -23,10 +25,9 @@ class Resolver {
             __typename: 'ProduitNonTrouve',
             message: `Aucun Produit n'a été trouvé`
           }
-
-				},
-				recupererLeProduit(_: void, {id, ...args}) {
-					const produit = _this.serverDependenciesContainer.catalogueDependencyContainer.recupererLeProduit.exécuter(id)
+        },
+        recupererLeProduit(_, {id}, __, ___) {
+          const produit = _this.serverDependenciesContainer.catalogueDependencyContainer.recupererLeProduit.exécuter(id)
           if(produit){
             return {
               __typename: "Produit",
@@ -37,15 +38,15 @@ class Resolver {
             __typename: 'ProduitNonTrouve',
               message: `Le produit avec l'id ${id} n'existe pas`
           }
-				}
-			},
-			Mutation: {
-				sauvegarderProduit(_: void, {produit, ...args}): ProduitOutputApi {
-					return _this.serverDependenciesContainer.catalogueDependencyContainer.creerUnProduit.exécuter(produit.nom, produit.prix, produit.poids)
-				}
-			}
-		};
-	}
+        }
+      },
+      Mutation: {
+        sauvegarderProduit(_, {produit}, __, ___): ProduitOutputApi {
+          return _this.serverDependenciesContainer.catalogueDependencyContainer.creerUnProduit.exécuter(produit.nom, produit.prix, produit.poids)
+        }
+      }
+    };
+  }
 }
 
 export default Resolver;
