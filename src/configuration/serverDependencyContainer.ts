@@ -1,12 +1,11 @@
 import CreateCatalogueDependencyContainer, {CatalogueDependencyContainer} from "../catalogue/configuration/catalogue.dependencyContainer";
-import { Connection } from "typeorm";
 
 export type ServerDependencyContainer = {
 	catalogueDependencyContainer: CatalogueDependencyContainer
 }
 
-export function createServerDependenciesContainer(connection: Connection): ServerDependencyContainer {
-	const catalogueDependencyContainer = CreateCatalogueDependencyContainer(connection)
+export function createServerDependenciesContainer(): ServerDependencyContainer {
+	const catalogueDependencyContainer = CreateCatalogueDependencyContainer()
 	return {
 		catalogueDependencyContainer: catalogueDependencyContainer,
 	}
