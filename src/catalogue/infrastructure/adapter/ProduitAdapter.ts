@@ -13,7 +13,7 @@ export default class ProduitAdapter implements ProduitPort {
         return produit
     }
 
-    récupérerLesProduits(filter?: string, offset?: number, limit?: number): Array<Produit> {
+    récupérerLesProduits(filter?: string, offset?: number, limit?: number): Array<Produit>  {
         return this.listeProduit
     }
 

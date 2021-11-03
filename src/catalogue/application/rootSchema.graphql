@@ -1,6 +1,6 @@
 type Query {
     recupererLesProduits(filter:String): [Produit]!
-    recupererLeProduit(id:String!): Produit
+    recupererLeProduit(id:String!): ResultatProduit
 }
 
 type Mutation {
@@ -13,12 +13,16 @@ input ProduitInput {
     poids: Float!
 }
 
+union ResultatProduit = Produit | ProduitNonTrouve
+
+type ProduitNonTrouve {
+    id: String!
+    message: String
+}
+
 type Produit {
     id: String!
     nom: String!
     prix: Float!
     poids: Float!
 }
-
-
-
