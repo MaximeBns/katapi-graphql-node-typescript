@@ -1,49 +1,40 @@
 import fs from 'fs'
-import { makeExecutableSchema } from 'graphql-tools'
-import { graphql } from 'graphql'
+import {graphql} from 'graphql'
 import Resolver from "../../resolverMap";
-import { CatalogueDependencyContainer } from "../../../configuration/catalogue.dependencyContainer";
-import { ServerDependencyContainer } from "../../../../configuration/serverDependencyContainer";
+import {createFakeServerDependenciesContainer} from "../../../../configuration/__tests__/serverDependencyContainer";
+import {makeExecutableSchema} from '@graphql-tools/schema'
 
-//https://gist.github.com/nzaghini/e038ff05c60bc2c5435f8331f890cea4
-const recupererProduit = {
-    exécuter: jest.fn().mockReturnValue({
-            id: "1",
-            nom: "Pomme",
-            poids: 200,
-            prix: 1
-        }
-    )
-};
-const recupérerLesProduits = {
-    exécuter: jest.fn().mockReturnValue([{
-        id: "1",
-        nom: "Pomme",
-        poids: 200,
-        prix: 1
-    }])
-};
-const creerProduit = {exécuter: jest.fn()} as any
+const catalogueContainer = createFakeServerDependenciesContainer().catalogueDependencyContainer
 
-const catalogueContainer = {
-    recupererLeProduit: recupererProduit,
-    recupererLesProduits: recupérerLesProduits,
-    creerUnProduit: creerProduit
-} as unknown as CatalogueDependencyContainer;
-const ServerContainer = {catalogueDependencyContainer: catalogueContainer} as ServerDependencyContainer;
+catalogueContainer.recupererLeProduit.exécuter = jest.fn().mockReturnValue({
+    id: "1",
+    nom: "Pomme",
+    poids: 200,
+    prix: 1
+  }
+);
 
-const resolvers = new Resolver(ServerContainer).getResolvers()
+catalogueContainer.recupererLesProduits.exécuter = jest.fn().mockReturnValue([{
+  id: "1",
+  nom: "Pomme",
+  poids: 200,
+  prix: 1
+}]);
+
+catalogueContainer.creerUnProduit = {exécuter: jest.fn()} as any
+
+const resolvers = new Resolver(catalogueContainer).getResolvers()
 
 const typeDefs = fs.readFileSync('./src/catalogue/application/rootSchema.graphql', 'utf8')
 const schema = makeExecutableSchema({typeDefs, resolvers})
 
 describe('ProduitController', () => {
-    beforeEach(() => {
+  beforeEach(() => {
+  });
 
-    });
-    it("recupererLesProduits()", async () => {
-        //given
-        const query = `
+  it("recupererLesProduits()", async () => {
+    // Given
+    const query = `
       query Query {
         recupererLesProduits {
           id
@@ -54,28 +45,28 @@ describe('ProduitController', () => {
       }
     `
 
+    // When
+    const result = await graphql(schema, query, null, null, null)
 
-        // when
-        const result = await graphql(schema, query, null, null, null)
+    // Then
+    const expected = {
+      data: {
+        recupererLesProduits: [
+          {
+            id: "1",
+            nom: "Pomme",
+            poids: 200,
+            prix: 1
+          }
+        ]
+      }
+    }
+    return expect(result).toEqual(expected)
+  })
 
-        // then
-        const expected = {
-            data: {
-                recupererLesProduits: [
-                    {
-                        id: "1",
-                        nom: "Pomme",
-                        poids: 200,
-                        prix: 1
-                    }
-                ]
-            }
-        }
-        return expect(result).toEqual(expected)
-    })
-    it("recupererUnProduit()", async () => {
-        // given
-        const query = `
+  it("recupererUnProduit()", async () => {
+    //Given
+    const query = `
       query Query {
         recupererLeProduit(id:"1") {
           id
@@ -85,19 +76,21 @@ describe('ProduitController', () => {
         }
       }
     `
-        // when
-        const result = await graphql(schema, query, null, null, null)
-        // then
-        const expected = {
-            data: {
-                recupererLeProduit: {
-                    id: "1",
-                    nom: "Pomme",
-                    poids: 200,
-                    prix: 1
-                }
-            }
+    //When
+    const result = await graphql(schema, query, null, null, null)
+
+    //Then
+    const expected = {
+      data: {
+        recupererLeProduit: {
+          id: "1",
+          nom: "Pomme",
+          poids: 200,
+          prix: 1
         }
-        expect(result).toEqual(expected)
-    });
+      }
+    }
+
+    expect(result).toEqual(expected)
+  });
 })
