@@ -11,7 +11,7 @@ import Resolver from "./catalogue/application/resolverMap";
 
 const serverDependencyContainer = createServerDependenciesContainer()
 
-const resolvers = new Resolver(serverDependencyContainer.catalogueDependencyContainer).getResolvers()
+const resolvers = new Resolver(serverDependencyContainer).getResolvers()
 const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
