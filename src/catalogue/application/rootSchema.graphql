@@ -1,5 +1,5 @@
 type Query {
-    recupererLesProduits(filter: ProduitFilter): ResultatListeProduit!
+    recupererLesProduits(filter: ProduitFilter): ResultatListeDeProduit
     recupererLeProduit(id:String!): ResultatProduit
 }
 
@@ -7,6 +7,9 @@ type Mutation {
     sauvegarderProduit(produit: ProduitInput): Produit
 }
 
+union ResultatListeDeProduit = ListeDeProduits | InternalServerError | BadRequestError | NotFoundError
+
+union ResultatProduit = Produit | ProduitNonTrouve
 
 input ProduitInput {
     nom: String!
@@ -14,11 +17,9 @@ input ProduitInput {
     poids: Float!
 }
 
-type ListeProduit {
-    produits: [Produit]
+type ListeDeProduits {
+    produits: [Produit]!
 }
-union ResultatListeProduit = ListeProduit | ProduitNonTrouve
-union ResultatProduit = Produit | ProduitNonTrouve
 
 type ProduitNonTrouve {
     id: String!
@@ -35,8 +36,41 @@ type Produit {
 input ProduitFilter {
     by: String! = "name"
     order: OrderType! = "ASC"
+    compare: Compare
     contains: String
     limit: Int
+}
+
+interface Error {
+    code: Int!
+    message: String!
+}
+
+type BadRequestError implements Error{
+    code: Int!
+    message: String!
+}
+
+type InternalServerError implements Error{
+    code: Int!
+    message: String!
+}
+
+type NotFoundError implements Error{
+    code: Int!
+    message: String!
+}
+
+input Compare {
+    sign: Sign!
+    than: Float!
+}
+
+enum Sign {
+    GREATER
+    LOWER
+    LOWER_THAN_OR_EQUAL
+    GREATER_THAN_OR_EQUAL_TO
 }
 
 enum OrderType {

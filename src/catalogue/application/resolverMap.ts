@@ -1,7 +1,7 @@
 import {IResolvers} from "@graphql-tools/utils";
-import ProduitOutputApi from "./produit/ProduitOutputApi";
-import { CatalogueDependencyContainer } from "../configuration/catalogue.dependencyContainer";
 import {ServerDependencyContainer} from "../../configuration/serverDependencyContainer";
+import {ProduitOutputApi} from "./produit/ProduitOutputApi";
+import {AucunProduitTrouve} from "../domain/errors/AucunProduitTrouve";
 
 //Todo: transformer cela en function
 export class Resolver {
@@ -13,17 +13,26 @@ export class Resolver {
     const _this = this;
     return {
       Query: {
-        recupererLesProduits(parent, {filter}, context, info) {
-          const listeProduit = _this.serverDependenciesContainer.catalogueDependencyContainer.recupererLesProduits.exécuter(filter)
-          if(listeProduit.length){
+        recupererLesProduits(_, {filter}, __, ___) {
+          try {
+            const produits  = _this.serverDependenciesContainer.catalogueDependencyContainer.recupererLesProduits.exécuter(filter)
             return {
-              __typename: "ListeProduit",
-              produits : listeProduit
+              __typename: "ListeDeProduits",
+              produits: produits
             }
-          }
-          return {
-            __typename: 'ProduitNonTrouve',
-            message: `Aucun Produit n'a été trouvé`
+          }catch (e){
+            if (e instanceof AucunProduitTrouve){
+              return {
+                __typename: 'NotFoundError',
+                code: e.code,
+                message: e.message
+              }
+            }
+            return {
+              __typename: 'InternalServerError',
+              code: 500,
+              message: `une erreur inconnue c'est produite`
+            }
           }
         },
         recupererLeProduit(_, {id}, __, ___) {
