@@ -1,5 +1,5 @@
 type Query {
-    recupererLesProduits(filter:String): [Produit]!
+    recupererLesProduits(filter:String): ResultatListeProduit!
     recupererLeProduit(id:String!): ResultatProduit
 }
 
@@ -13,6 +13,10 @@ input ProduitInput {
     poids: Float!
 }
 
+type ListeProduit {
+    produits: [Produit]
+}
+union ResultatListeProduit = ListeProduit | ProduitNonTrouve
 union ResultatProduit = Produit | ProduitNonTrouve
 
 type ProduitNonTrouve {
