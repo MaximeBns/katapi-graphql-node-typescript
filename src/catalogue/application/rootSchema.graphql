@@ -1,10 +1,13 @@
 type Query {
     recupererLesProduits(filter: ProduitFilter): ResultatListeDeProduit
     recupererLeProduit(id:String!): ResultatProduit
+    recupererLesCommandes: ResultatListeCommande
+    recupererLaCommande(id: String!): ResultatCommande
 }
 
 type Mutation {
     sauvegarderProduit(produit: ProduitInput): Produit
+    sauvegarderCommande(commande: CommandeInput): Commande
 }
 
 union ResultatListeDeProduit = ListeDeProduits | InternalServerError | BadRequestError | NotFoundError
@@ -17,11 +20,34 @@ input ProduitInput {
     poids: Float!
 }
 
+input CommandeInput {
+    elements: [ElementCommandeInput]!
+}
+
+input ElementCommandeInput {
+    idProduit: String!
+    quantite: Int!
+}
+
 type ListeDeProduits {
     produits: [Produit]!
 }
 
+type ListeCommande {
+    commandes: [Commande]
+}
+
+union ResultatListeProduit = ListeDeProduits | ProduitNonTrouve
+union ResultatProduit = Produit | ProduitNonTrouve
+union ResultatListeCommande = ListeCommande | CommandeNonTrouvee
+union ResultatCommande = Commande | CommandeNonTrouvee
+
 type ProduitNonTrouve {
+    id: String!
+    message: String
+}
+
+type CommandeNonTrouvee {
     id: String!
     message: String
 }
@@ -32,6 +58,29 @@ type Produit {
     prix: Float!
     poids: Float!
 }
+
+type Commande {
+    id: String!
+    statut: StatutDemande!
+    elements: [ElementCommande]!
+    fraisDePort: Float!
+    montantTotal: Float!
+    poids: Float!
+}
+
+enum StatutDemande {
+    EN_COURS
+    PAYEE
+    ANNULEE
+}
+
+type ElementCommande {
+    produit: ResultatProduit!
+    quantite: Int!
+}
+
+
+
 
 input ProduitFilter {
     by: String! = "name"

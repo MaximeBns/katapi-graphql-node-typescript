@@ -1,7 +1,7 @@
 import Produit from "../../domain/entities/produit";
 import CreerUnProduit from "../creerUnProduit";
-import produitPortTest from "./helper/PortsTests";
 import ProduitAdapter from "../../infrastructure/adapter/ProduitAdapter";
+import {produitPortTest} from "./helper/PortsTests";
 
 describe('creerUnProduit', () => {
     describe('exécuter : quand on créé un produit', () => {

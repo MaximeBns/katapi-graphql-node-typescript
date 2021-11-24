@@ -3,7 +3,6 @@ import {makeExecutableSchema} from '@graphql-tools/schema'
 import {graphql} from 'graphql'
 import Resolver from "../../resolverMap";
 import {CatalogueDependencyContainer} from "../../../configuration/catalogue.dependencyContainer";
-import {ServerDependencyContainer} from "../../../../configuration/serverDependencyContainer";
 
 //https://gist.github.com/nzaghini/e038ff05c60bc2c5435f8331f890cea4
 const recupererProduit = {
@@ -31,9 +30,7 @@ const catalogueContainer = {
   creerUnProduit: creerProduit
 } as unknown as CatalogueDependencyContainer
 
-const serverContainer = {catalogueDependencyContainer: catalogueContainer} as ServerDependencyContainer;
-
-const resolvers = new Resolver(serverContainer).getResolvers()
+const resolvers = new Resolver(catalogueContainer).getResolvers()
 
 const typeDefs = fs.readFileSync('./src/catalogue/application/rootSchema.graphql', 'utf8')
 const schema = makeExecutableSchema({typeDefs, resolvers})

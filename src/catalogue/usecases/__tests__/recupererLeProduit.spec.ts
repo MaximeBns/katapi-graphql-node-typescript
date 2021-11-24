@@ -1,7 +1,7 @@
 import Produit from "../../domain/entities/produit";
-import produitPortTest from "./helper/PortsTests";
 import ProduitAdapter from "../../infrastructure/adapter/ProduitAdapter";
 import RecupererLeProduit from "../recupererLeProduit";
+import {produitPortTest} from "./helper/PortsTests";
 
 describe('recupererLeProduit', () => {
     describe('exécuter : quand on récupère un produit par id', () => {
