@@ -44,7 +44,8 @@ describe('ProduitController', () => {
     const query = `
       query Query {
         recupererLesProduits {
-          ... on ListeProduit {
+                __typename
+          ... on ListeDeProduits  {
             produits {
               id
               prix
@@ -56,7 +57,6 @@ describe('ProduitController', () => {
       }
     `
 
-
     // when
     const result = await graphql(schema, query, null, null, null)
 
@@ -64,7 +64,7 @@ describe('ProduitController', () => {
     const expected = {
       data: {
         recupererLesProduits: {
-          __typename: 'ListeDeProduits',
+          __typename: "ListeDeProduits",
           produits: [
             {
               id: "1",
@@ -78,13 +78,14 @@ describe('ProduitController', () => {
     }
     return expect(result).toEqual(expected)
   })
+
   it("recupererUnProduit()", async () => {
     // given
     const query = `
       query Query {
         recupererLeProduit(id:"1") {
+        __typename
         ... on Produit {
-          __typename
           id
           prix
           nom
