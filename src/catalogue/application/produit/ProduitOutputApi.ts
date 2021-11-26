@@ -1,4 +1,4 @@
-export default interface ProduitOutputApi {
+export interface ProduitOutputApi {
     id: string
     nom: string
     prix: number

@@ -1,5 +1,5 @@
 import RecupererLeProduit from "../usecases/recupererLeProduit";
-import RecupererLesProduits from "../usecases/recupererLesProduits";
+import RecupererLesProduits from "../usecases/recupererLesProduits/recupererLesProduits";
 import CreerUnProduit from "../usecases/creerUnProduit";
 import ProduitPort from "../domain/ports/produitPort";
 
