@@ -12,8 +12,6 @@ type Mutation {
 
 union ResultatListeDeProduit = ListeDeProduits | InternalServerError | BadRequestError | NotFoundError
 
-union ResultatProduit = Produit | ProduitNonTrouve
-
 input ProduitInput {
     nom: String!
     prix: Float!
