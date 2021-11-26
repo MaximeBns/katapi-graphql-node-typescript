@@ -11,8 +11,19 @@ class Resolver {
 		const _this = this;
 		return {
 			Query: {
-				recupererLesProduits(_: void, {filter, ...args}): ProduitOutputApi[] {
-					return _this.serverDependenciesContainer.catalogueDependencyContainer.recupererLesProduits.exécuter(filter)
+				recupererLesProduits(_: void, {filter, ...args}) {
+          const listeProduit = _this.serverDependenciesContainer.catalogueDependencyContainer.recupererLesProduits.exécuter(filter)
+          if(listeProduit.length){
+            return {
+              __typename: "ListeProduit",
+              produits : listeProduit
+            }
+          }
+          return {
+            __typename: 'ProduitNonTrouve',
+            message: `Aucun Produit n'a été trouvé`
+          }
+
 				},
 				recupererLeProduit(_: void, {id, ...args}) {
 					const produit = _this.serverDependenciesContainer.catalogueDependencyContainer.recupererLeProduit.exécuter(id)

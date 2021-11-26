@@ -45,10 +45,14 @@ describe('ProduitController', () => {
     const query = `
       query Query {
         recupererLesProduits {
-          id
-          prix
-          nom
-          poids
+          ... on ListeProduit {
+            produits {
+              id
+              prix
+              nom
+              poids
+            }
+          }
         }
       }
     `
@@ -60,14 +64,16 @@ describe('ProduitController', () => {
     // then
     const expected = {
       data: {
-        recupererLesProduits: [
-          {
-            id: "1",
-            nom: "Pomme",
-            poids: 200,
-            prix: 1
-          }
-        ]
+        recupererLesProduits: {
+          produits: [
+            {
+              id: "1",
+              nom: "Pomme",
+              poids: 200,
+              prix: 1
+            }
+          ]
+        }
       }
     }
     return expect(result).toEqual(expected)

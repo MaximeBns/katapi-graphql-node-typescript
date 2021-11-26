@@ -1,11 +1,12 @@
 import Produit from "../produit";
+jest.spyOn(global.Math, 'random').mockReturnValue(0.1);
 
 describe('produit', () => {
     describe('creer : quand on créé un produit', () => {
         it('alors retourne un objet Produit', () => {
             // given
-            const produitAttendu: Produit = {
-                id: "1",
+            const produitAttendu: Partial<Produit> = {
+              id:"1",
                 nom: "Pastèque",
                 prix: 20,
                 poids: 5,
