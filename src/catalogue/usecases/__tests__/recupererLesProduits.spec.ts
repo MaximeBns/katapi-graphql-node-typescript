@@ -1,8 +1,8 @@
 import Produit from "../../domain/entities/produit";
-import RecupererLesProduits from "../recupererLesProduits";
 import ProduitAdapter from "../../infrastructure/adapter/ProduitAdapter";
 import {produitPortTest} from "./helper/PortsTests";
 import ProduitPort from "../../domain/ports/produitPort";
+import RecupererLesProduits from "../recupererLesProduits/recupererLesProduits";
 
 describe('recupererLesProduits', () => {
   describe('exécuter : quand on récupère les produits', () => {

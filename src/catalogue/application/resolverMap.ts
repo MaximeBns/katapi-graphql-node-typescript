@@ -1,11 +1,11 @@
 import {IResolvers} from "@graphql-tools/utils";
-import ProduitOutputApi, {ProduitOutputApi} from "./produit/ProduitOutputApi";
 import {CatalogueDependencyContainer} from "../configuration/catalogue.dependencyContainer";
 import {CommandeOutputApi} from "./commande/CommandeOutputApi";
 import {ErreurOutputApi} from "./shared/ErreurOuputApi";
 import {toCommandeOutputApi} from "./shared/mappingUtils";
 import {ListeCommandeOutputApi} from "./commande/ListeCommandeOutputApi";
 import {AucunProduitTrouve} from "../domain/errors/AucunProduitTrouve";
+import {ProduitOutputApi} from "./produit/ProduitOutputApi";
 
 //Todo: transformer cela en function
 export class Resolver {
