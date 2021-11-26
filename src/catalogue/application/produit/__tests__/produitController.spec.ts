@@ -4,7 +4,6 @@ import {graphql} from 'graphql'
 import Resolver from "../../resolverMap";
 import {CatalogueDependencyContainer} from "../../../configuration/catalogue.dependencyContainer";
 import {ServerDependencyContainer} from "../../../../configuration/serverDependencyContainer";
-import RecupererLesProduits from "../../../usecases/recupererLesProduits";
 
 //https://gist.github.com/nzaghini/e038ff05c60bc2c5435f8331f890cea4
 const recupererProduit = {
@@ -65,6 +64,7 @@ describe('ProduitController', () => {
     const expected = {
       data: {
         recupererLesProduits: {
+          __typename: 'ListeDeProduits',
           produits: [
             {
               id: "1",
