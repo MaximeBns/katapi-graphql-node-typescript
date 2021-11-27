@@ -6,8 +6,7 @@ export type ServerDependencyContainer = {
 }
 
 export function createServerDependenciesContainer(): ServerDependencyContainer {
-	const produitAdapter = new ProduitAdapter()
-	const catalogueDependencyContainer = createCatalogueDependencyContainer(produitAdapter)
+	const catalogueDependencyContainer = createCatalogueDependencyContainer()
 	return {
 		catalogueDependencyContainer: catalogueDependencyContainer,
 	}
