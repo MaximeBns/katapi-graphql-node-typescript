@@ -114,6 +114,27 @@ directement à l'élément pointer puis le moteur de base de donnée peut retour
 
 Important : La pagination nécessite un ordre de tri déterministe.
 
+
+1.3 Edge et Connection 
+
+La connexion est un concept qui a commencé avec RelayJS et est utilisé pour GraphQL. Ce concept est utilisé par Facebook,
+Twitter et GitHub pour récupérer les enregistrements paginés.
+
+La connexion est un objet qui contient des edges et des nodes.
+
+**Connection** : cet objet contient des métadonnées sur le champ paginé. Ceci est principalement utilisé dans la pagination 
+basée sur le curseur car cela nous donne des informations supplémentaires que nous utilisons pour effectuer la requête 
+suivante.
+
+**Edge** : cet objet contient les informations sur le parent et l'enfant qu'il contient. Il relie deux nodes (ou noeuds)
+, représentant une sorte de relation entre les deux nœuds. Chaque bord contient des métadonnées sur chaque objet dans le résultat 
+paginé renvoyé.
+
+**Nodes** : les objets présents dans les edges (bords).
+
+
+
+
 Connection : le fait de retourner le curseur suivant qui peut être utilisé pour récupérer les éléments suivant 
 de la liste  
 
