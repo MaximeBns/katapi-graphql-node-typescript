@@ -329,7 +329,7 @@ describe("ProduitAdapter", () => {
 				const filter: FiltreProduit = {
 					by: FilteredProductFilled.Name,
 					order: OrderType.Asc,
-					limit: 2,
+					first: 2,
 				}
 
 				// when

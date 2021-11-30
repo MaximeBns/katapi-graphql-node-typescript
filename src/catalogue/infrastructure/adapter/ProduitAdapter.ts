@@ -8,6 +8,8 @@ import {
 } from "../../usecases/recupererLesProduits/filtreProduit";
 import {AucunProduitTrouve} from "../../domain/errors/AucunProduitTrouve";
 import http2 from "http2";
+import {Result} from "../../../shared/infrastructure/result";
+import {Edge} from "../../../shared/infrastructure/edge";
 
 export default class ProduitAdapter implements ProduitPort {
   listeProduit: Produit[]
@@ -21,11 +23,29 @@ export default class ProduitAdapter implements ProduitPort {
     return produit
   }
 
-  récupérerLesProduits(filtre?: FiltreProduit): Array<Produit> {
+  récupérerLesProduits(filtre?: FiltreProduit): Result<Produit> {
+    let produits : Array<Produit>
     if (filtre) {
-      return this.filtrerProduits(this.listeProduit, filtre)
+       produits = this.filtrerProduits(this.listeProduit, filtre)
+    } else {
+       produits = this.listeProduit
     }
-    return this.listeProduit
+    // count total number of product
+    const totalProduits = this.listeProduit.length
+
+    //create product edge
+    const produitsEdge = produits.map((produit): Edge<Produit> => ({node: produit, cursor: produit.id}))
+
+    const produitsResult: Result<Produit> = {
+      totalCount: totalProduits,
+      edges: produitsEdge,
+      pageInfo: {
+        hasNextPage: false,
+        startCursor: produitsEdge[produitsEdge.length-1].cursor,
+      }
+    }
+
+    return produitsResult
   }
 
   private filtrerProduits(produitsNonFiltres: Array<Produit>, filter: FiltreProduit): Array<Produit> {
@@ -88,8 +108,11 @@ export default class ProduitAdapter implements ProduitPort {
         break
     }
 
-    if (filter.limit)
-      produitsFiltré = produitsFiltré.slice(0, filter.limit)
+    //Todo (rede) : replace with start and cursor
+    if (filter.first && filter.afterCursor) {
+      const cursorIndex = produitsFiltré.findIndex((produit) => produit.id === filter.afterCursor)
+      produitsFiltré = produitsFiltré.slice(cursorIndex, cursorIndex + filter.first)
+    }
 
     if (produitsFiltré.length > 0) {
       return produitsFiltré

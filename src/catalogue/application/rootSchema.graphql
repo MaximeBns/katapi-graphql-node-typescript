@@ -11,50 +11,66 @@ type Mutation {
 }
 
 union ResultatListeDeProduit = ListeDeProduits | InternalServerError | BadRequestError | NotFoundError
-
-input ProduitInput {
-    nom: String!
-    prix: Float!
-    poids: Float!
-}
-
-input CommandeInput {
-    elements: [ElementCommandeInput]!
-}
-
-input ElementCommandeInput {
-    idProduit: String!
-    quantite: Int!
-}
-
-type ListeDeProduits {
-    produits: [Produit]!
-}
-
-type ListeCommande {
-    commandes: [Commande]
-}
-
 union ResultatListeProduit = ListeDeProduits | ProduitNonTrouve
 union ResultatProduit = Produit | ProduitNonTrouve
 union ResultatListeCommande = ListeCommande | CommandeNonTrouvee
 union ResultatCommande = Commande | CommandeNonTrouvee
+
+# PRODUIT
+type Produit {
+    id: String!
+    nom: String!
+    prix: Float!
+    poids: Float!
+}
 
 type ProduitNonTrouve {
     id: String!
     message: String
 }
 
+# LISTE DE PRODUITS
+type ProduitEdge {
+    node: Produit
+    cursor: String
+}
+
+type PageInfo {
+    startCursor: String
+    hasNextPage: Boolean
+}
+
+type ListeDeProduits {
+    totalCount: String
+    edges: [ProduitEdge]
+    pageInfo: PageInfo
+}
+
+input Compare {
+    sign: Sign!
+    than: Float!
+}
+
+enum Sign {
+    GREATER
+    LOWER
+    LOWER_THAN_OR_EQUAL
+    GREATER_THAN_OR_EQUAL_TO
+}
+
+enum OrderType {
+    ASC
+    DESC
+}
+
+# LISTE COMMANDE
+type ListeCommande {
+    commandes: [Commande]
+}
+
 type CommandeNonTrouvee {
     id: String!
     message: String
-}
-
-type Produit {
-    id: String!
-    nom: String!
-    prix: Float!
-    poids: Float!
 }
 
 type Commande {
@@ -77,16 +93,32 @@ type ElementCommande {
     quantite: Int!
 }
 
+# INPUT
+input ProduitInput {
+    nom: String!
+    prix: Float!
+    poids: Float!
+}
 
+input CommandeInput {
+    elements: [ElementCommandeInput]!
+}
 
+input ElementCommandeInput {
+    idProduit: String!
+    quantite: Int!
+}
 
 input ProduitFilter {
     by: String! = "name"
     order: OrderType! = "ASC"
     compare: Compare
     contains: String
-    limit: Int
+    first: Int
+    afterCursor: String
 }
+
+# ERROR HANDLING
 
 interface Error {
     code: Int!
@@ -107,23 +139,3 @@ type NotFoundError implements Error{
     code: Int!
     message: String!
 }
-
-input Compare {
-    sign: Sign!
-    than: Float!
-}
-
-enum Sign {
-    GREATER
-    LOWER
-    LOWER_THAN_OR_EQUAL
-    GREATER_THAN_OR_EQUAL_TO
-}
-
-enum OrderType {
-    ASC
-    DESC
-}
-
-
-

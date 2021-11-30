@@ -132,6 +132,67 @@ paginé renvoyé.
 
 **Nodes** : les objets présents dans les edges (bords).
 
+````graphql
+type Users {
+
+    id: String!
+
+    name: String
+
+    age: String
+
+}
+
+type Edge {
+
+    node: NewsItem
+
+    cursor: String
+
+}
+
+type PageInfo {
+
+    startCursor: String
+
+    hasNextPage: Boolean
+
+}
+
+type UsersResult {
+
+    totalCount: String
+
+    edges: [ProduitEdge]
+
+    pageInfo: PageInfo
+
+}
+
+type Query {
+
+    news(first: Int, afterCursor: String): UsersResult
+
+}
+````
+
+
+- Le totalCount : sera le nombre total d'éléments dans la base de données. Cette information est utile si nous voulons 
+afficher le nombre d'utilisateurs dans notre base de données.
+
+- L'objet edge comme nous le savons déjà contient des informations sur chaque node, ici il contient le curseur de chaque 
+node. Le node correspond à un utilisateur et son curseur.
+
+- La pageInfo contient des informations générales sur la page 
+particulière renvoyée. 
+  
+- Ici le startCursor contient le prochain curseur qui sera utilisé pour récupérer le prochain élément d'actualité défini.
+  hasNextPage est un booléen qui nous dit s'il y a plus d'actualités ou non. Ouvrir dans Google Traduction
+•
+Commentaires
+
+Google Traductionhttps://translate.google.fr › ...
+Ce service gratuit de Google traduit instantanément des mots, des expressions et des pages Web du français vers plus de 100 autres langues.
 
 
 
@@ -140,3 +201,10 @@ de la liste
 
 Connection is a concept that started with RelayJS and is used for GraphQL. 
 This concept is used by Facebook, Twitter, and GitHub for fetching the paginated records.
+
+
+
+### Sources 
+
+[pagination graphql](https://use-the-index-luke.com/sql/partial-results/fetch-next-page)
+[pagination in graphql dev.to](https://daily.dev/blog/pagination-in-graphql)

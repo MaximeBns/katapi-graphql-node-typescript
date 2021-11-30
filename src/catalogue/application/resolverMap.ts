@@ -6,8 +6,12 @@ import {toCommandeOutputApi} from "./shared/mappingUtils";
 import {ListeCommandeOutputApi} from "./commande/ListeCommandeOutputApi";
 import {AucunProduitTrouve} from "../domain/errors/AucunProduitTrouve";
 import {ProduitOutputApi} from "./produit/ProduitOutputApi";
+import Produit from "../domain/entities/produit";
+import {Result} from "../../shared/infrastructure/result";
+import {Edge} from "../../shared/infrastructure/edge";
 
-//Todo: transformer cela en function
+//Todo (REDE): transformer cela en function
+//Todo (REDE): peut être sortir la logique que l'on mis dans les resolvers dans des "controllers ou handler" ?
 export class Resolver {
 
   constructor(private catalogueDependencyContainer: CatalogueDependencyContainer) {
@@ -19,10 +23,10 @@ export class Resolver {
       Query: {
         recupererLesProduits(_, {filter}, __, ___) {
             try {
-                const produits = _this.catalogueDependencyContainer.recupererLesProduits.exécuter(filter)
+                const produitsResult = _this.catalogueDependencyContainer.recupererLesProduits.exécuter(filter)
                 return {
                     __typename: "ListeDeProduits",
-                    produits: produits
+                  ...produitsResult,
                 }
             } catch (e) {
                 if (e instanceof AucunProduitTrouve) {

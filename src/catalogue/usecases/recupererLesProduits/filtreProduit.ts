@@ -3,22 +3,20 @@ export type FiltreProduit = {
   order: string
   compare?: Compare
   contains?: string
-  limit?: number
+  first?: number
+  afterCursor?: string
 }
-
 
 export interface Compare {
   sign?: string
   than?: number
 }
 
-
 export enum FilteredProductFilled {
   Name = "name",
   Prix = "prix",
   Poids = "pods"
 }
-
 
 export enum CompareSign {
   Greater = "GREATER",
