@@ -1,10 +1,10 @@
 import {IdGenerator} from "../../domain/ports/idGenerator";
-import {randomUUID} from "crypto";
+import { v4 as uuidv4 } from 'uuid';
 
 export class UUIDGenerator implements IdGenerator {
     constructor() {}
 
     generate(): string {
-        return randomUUID()
+        return uuidv4()
     }
 }
