@@ -7,8 +7,8 @@ export async function createPostgresConnection(): Promise<Connection> {
 		host: "localhost",
 		port: 5432,
 		username: "postgres",
-		password: "Theeb6uu",
-		database: "typeormdemo",
+		password: "password",
+		database: "default_database",
 		entities: [],
 	});
 	return createdConnection
