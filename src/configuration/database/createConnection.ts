@@ -1,15 +1,15 @@
 import ProduitModel from "../../catalogue/infrastructure/adapter/models/produit.model";
 import {Connection, createConnection} from "typeorm";
-import * as sqlite from "expo-sqlite"
 
-export async function createSqliteConnection(): Promise<Connection> {
+export async function createPostgresConnection(): Promise<Connection> {
 	const createdConnection = await createConnection({
-		type: 'expo',
-		database: 'todos.db',
-		driver: sqlite,
-		entities: [ProduitModel],
-		migrationsRun: false,
-		synchronize: false,
+		type: "postgres",
+		host: "localhost",
+		port: 5432,
+		username: "postgres",
+		password: "Theeb6uu",
+		database: "typeormdemo",
+		entities: [],
 	});
 	return createdConnection
 }
