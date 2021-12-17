@@ -1,4 +1,4 @@
-import ProduitModel from "../../catalogue/infrastructure/adapter/models/produit.model";
+import ProduitTypeORMEntity from "../../catalogue/configuration/db/type-orm-entity/produit.model";
 import {Connection, createConnection} from "typeorm";
 
 export async function createPostgresConnection(): Promise<Connection> {
