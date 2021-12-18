@@ -21,6 +21,7 @@ describe("ProduitAdapter", () => {
 			expect(produitAdapter.listeProduit).toContain(produitASauvegarder)
 		});
 	});
+
 	describe("récupérerLesProduits quand on veut récupérer tous les produits", () => {
 		let produitSauvegardés : Array<Produit>
 		let produitAdapter : ProduitAdapter

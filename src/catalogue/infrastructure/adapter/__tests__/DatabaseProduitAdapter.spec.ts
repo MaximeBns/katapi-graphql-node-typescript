@@ -27,6 +27,21 @@ describe('DatabaseProduitAdapter',  () => {
         });
     })
 
+    describe('quand récupérerLeProduit est appelée', () => {
+        it('renvoie le produit s\'il existe', async () => {
+            // Given
+            const pomme_db = new ProduitTypeORMEntity('idPomme','Pomme',20,1)
+            await typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).save(pomme_db))
+
+            // When
+            const pomme_récupérée = await adapter.récupérerLeProduit('idPomme')
+
+            // Then
+            const expected_pomme = Produit.creer('idPomme','Pomme',20,1)
+            expect(pomme_récupérée).toEqual(expected_pomme)
+        })
+    })
+
     afterAll(async () => {
         await typeORMClient.closeConnection()
     })
