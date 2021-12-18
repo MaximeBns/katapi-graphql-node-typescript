@@ -9,10 +9,10 @@ export default class ProduitTypeORMEntity {
 	@Column()
 	readonly nom: string
 
-	@Column()
+	@Column({type: 'float'})
 	prix: number
 
-	@Column()
+	@Column({type: 'float'})
 	poids: number
 
 	constructor(id: string, nom: string, prix: number, poids: number) {

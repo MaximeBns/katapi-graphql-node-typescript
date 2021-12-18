@@ -57,7 +57,7 @@ describe("ProduitAdapter", () => {
 			produitAdapter.listeProduit = produitSauvegardés
 		})
 
-		it("retourne une liste de produits", () => {
+		it("retourne une liste de produits", async () => {
 			// given
 			const produitAdapter = new ProduitAdapter()
 			produitAdapter.listeProduit = [{
@@ -68,7 +68,7 @@ describe("ProduitAdapter", () => {
 			}];
 
 			// when
-			const produitsRécupérés = produitAdapter.récupérerLesProduits();
+			const produitsRécupérés = await produitAdapter.récupérerLesProduits();
 
 			// then
 			const produitAttendu = {
@@ -85,7 +85,7 @@ describe("ProduitAdapter", () => {
 				describe("par ordre", ()=>{
 					describe("croissant de", ()=>{
 						describe("nom", ()=>{
-							it("alors retourne une liste de produit trié par nom croissant", ()=>{
+							it("alors retourne une liste de produit trié par nom croissant", async () => {
 								//given
 								const filtre: FiltreProduit = {
 									by: FilteredProductFilled.Name,
@@ -116,14 +116,14 @@ describe("ProduitAdapter", () => {
 								}];
 
 								// when
-								const produitRetourné = produitAdapter.récupérerLesProduits(filtre)
+								const produitRetourné = await produitAdapter.récupérerLesProduits(filtre)
 
 								// then
 								expect(produitRetourné).toEqual(produitsAttendus);
 							})
 						})
 						describe("prix", ()=>{
-							it("alors retourne une liste de produit trié par ordre de prix", ()=>{
+							it("alors retourne une liste de produit trié par ordre de prix", async () => {
 								const filtre: FiltreProduit = {
 									by: FilteredProductFilled.Prix,
 									contains: "po",
@@ -152,7 +152,7 @@ describe("ProduitAdapter", () => {
 								}];
 
 								//When
-								const produitRetourné = produitAdapter.récupérerLesProduits(filtre)
+								const produitRetourné = await produitAdapter.récupérerLesProduits(filtre)
 
 								//Then
 								expect(produitRetourné).toEqual(produitsAttendus);
@@ -160,7 +160,7 @@ describe("ProduitAdapter", () => {
 							})
 						})
 						describe("poids", ()=>{
-							it("alors retourne une liste de produit trié par ordre de poids croissant", ()=>{
+							it("alors retourne une liste de produit trié par ordre de poids croissant", async () => {
 								//Given
 								const filtre: FiltreProduit = {
 									by: FilteredProductFilled.Poids,
@@ -168,7 +168,7 @@ describe("ProduitAdapter", () => {
 									order: OrderType.Asc,
 								}
 								//When
-								const produitRetourné = produitAdapter.récupérerLesProduits(filtre)
+								const produitRetourné = await produitAdapter.récupérerLesProduits(filtre)
 
 								//Then
 								const produitsAttendus = [{
@@ -201,7 +201,7 @@ describe("ProduitAdapter", () => {
 
 					describe("décroissant de", ()=>{
 						describe("nom", ()=>{
-							it("alors retourne une liste de produit trié par nom décroissant", ()=>{
+							it("alors retourne une liste de produit trié par nom décroissant", async () => {
 								//given
 								const filtre: FiltreProduit = {
 									by: FilteredProductFilled.Name,
@@ -232,7 +232,7 @@ describe("ProduitAdapter", () => {
 								}].reverse();
 
 								// when
-								const produitRetourné = produitAdapter.récupérerLesProduits(filtre)
+								const produitRetourné = await produitAdapter.récupérerLesProduits(filtre)
 
 								// then
 								expect(produitRetourné).toEqual(produitsAttendus);
@@ -240,7 +240,7 @@ describe("ProduitAdapter", () => {
 						})
 
 						describe("prix", ()=>{
-							it("alors retourne une liste de produit trié par ordre de prix décroissant", ()=>{
+							it("alors retourne une liste de produit trié par ordre de prix décroissant", async () => {
 								//Given
 								const filtre: FiltreProduit = {
 									by: FilteredProductFilled.Prix,
@@ -272,7 +272,7 @@ describe("ProduitAdapter", () => {
 
 
 								//When
-								const produitRetourné = produitAdapter.récupérerLesProduits(filtre)
+								const produitRetourné = await produitAdapter.récupérerLesProduits(filtre)
 
 								//Then
 								expect(produitRetourné).toEqual(produitsAttendus);
@@ -280,7 +280,7 @@ describe("ProduitAdapter", () => {
 						})
 
 						describe("poids", ()=>{
-							it("alors retourne une liste de produit trié par ordre de poids décroissant", ()=>{
+							it("alors retourne une liste de produit trié par ordre de poids décroissant", async () => {
 								//Given
 								const filtre: FiltreProduit = {
 									by: FilteredProductFilled.Poids,
@@ -311,7 +311,7 @@ describe("ProduitAdapter", () => {
 								}].reverse();
 
 								//When
-								const produitRetourné = produitAdapter.récupérerLesProduits(filtre)
+								const produitRetourné = await produitAdapter.récupérerLesProduits(filtre)
 
 								//Then
 
@@ -325,7 +325,7 @@ describe("ProduitAdapter", () => {
 		})
 
 		describe("limité", ()=>{
-			it(" à 2 produits alors retourne 2 produits ", () => {
+			it(" à 2 produits alors retourne 2 produits ", async () => {
 				//given
 				const filter: FiltreProduit = {
 					by: FilteredProductFilled.Name,
@@ -334,7 +334,7 @@ describe("ProduitAdapter", () => {
 				}
 
 				// when
-				const produitRetourné = produitAdapter.récupérerLesProduits(filter)
+				const produitRetourné = await produitAdapter.récupérerLesProduits(filter)
 
 				// then
 				const produitsAttendus = [{

@@ -7,10 +7,10 @@ export default class ElementCommandeTypeORMEntity {
     @PrimaryColumn()
     readonly id: string
 
-    @ManyToOne(() => CommandeTypeORMEntity, commande => commande.elements)
+    @ManyToOne(() => CommandeTypeORMEntity, commande => commande.elements,{onDelete: 'CASCADE'})
     readonly commande: CommandeTypeORMEntity
 
-    @ManyToOne(() => ProduitTypeORMEntity)
+    @ManyToOne(() => ProduitTypeORMEntity, {onDelete: 'CASCADE'})
     readonly produit: ProduitTypeORMEntity;
 
     @Column()

@@ -8,6 +8,10 @@ describe('DatabaseProduitAdapter',  () => {
     const typeORMClient = new TypeORMClient(createPostgresConnection())
     const adapter = new DatabaseProduitAdapter(typeORMClient)
 
+    afterEach(async () => {
+        await typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).delete({}))
+    })
+
     describe('quand sauvegarderProduit est appelée', () => {
         it("sauvegarde le produit en base", async () => {
             // given
@@ -39,6 +43,23 @@ describe('DatabaseProduitAdapter',  () => {
             // Then
             const expected_pomme = Produit.creer('idPomme','Pomme',20,1)
             expect(pomme_récupérée).toEqual(expected_pomme)
+        })
+    })
+
+    describe('quand récupérerLesProduits est appelée', () => {
+        it('renvoie la liste des produits en base s\'il n\'y a pas de filtre', async () => {
+            // Given
+            const pomme_db = new ProduitTypeORMEntity('idPomme','Pomme',20,1)
+            const poire_db = new ProduitTypeORMEntity('idPoire','Poire',25,1)
+            await typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).save([pomme_db, poire_db]))
+
+            // When
+            const produits_récupérés = await adapter.récupérerLesProduits()
+
+            // Then
+            const expected_pomme = Produit.creer('idPomme','Pomme',20,1)
+            const expected_poire = Produit.creer('idPoire','Poire',25,1)
+            expect(produits_récupérés).toEqual([expected_pomme, expected_poire])
         })
     })
 

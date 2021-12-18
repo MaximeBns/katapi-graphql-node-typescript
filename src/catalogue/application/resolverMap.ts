@@ -17,9 +17,9 @@ export class Resolver {
     const _this = this;
     return {
       Query: {
-        recupererLesProduits(_, {filter}, __, ___) {
+        async recupererLesProduits(_, {filter}, __, ___) {
             try {
-                const produits = _this.catalogueDependencyContainer.recupererLesProduits.exécuter(filter)
+                const produits = await _this.catalogueDependencyContainer.recupererLesProduits.exécuter(filter)
                 return {
                     __typename: "ListeDeProduits",
                     produits: produits

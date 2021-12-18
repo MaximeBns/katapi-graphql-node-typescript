@@ -20,7 +20,7 @@ export default class ProduitAdapter implements ProduitPort {
     this.listeProduit.push(produit)
   }
 
-  récupérerLesProduits(filtre?: FiltreProduit): Array<Produit> {
+  async récupérerLesProduits(filtre?: FiltreProduit): Promise<Produit[]> {
     if (filtre) {
       return this.filtrerProduits(this.listeProduit, filtre)
     }

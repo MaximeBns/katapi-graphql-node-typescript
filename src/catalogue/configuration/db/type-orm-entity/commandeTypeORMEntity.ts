@@ -12,12 +12,12 @@ export default class CommandeTypeORMEntity {
     @OneToMany(() => ElementCommandeTypeORMEntity, element => element.commande)
     elements: ElementCommandeTypeORMEntity[]
 
-    @Column()
+    @Column({type: 'float'})
     poids: number
 
-    @Column()
+    @Column({type: 'float'})
     fraisDePort: number
 
-    @Column()
+    @Column({type: 'float'})
     montantTotal: number
 }

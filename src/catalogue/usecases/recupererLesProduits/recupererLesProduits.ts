@@ -9,7 +9,7 @@ export default class RecupererLesProduits {
     this.produitPort = produitPort;        // https://github.com/typestack/typedi/issues/70
   }
 
-  exécuter(filter?: FiltreProduit): Array<Produit> {
-    return this.produitPort.récupérerLesProduits(filter);
+  async exécuter(filter?: FiltreProduit): Promise<Produit[]> {
+    return await this.produitPort.récupérerLesProduits(filter);
   }
 }

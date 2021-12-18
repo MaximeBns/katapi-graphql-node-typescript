@@ -23,8 +23,9 @@ export default class DatabaseProduitAdapter implements ProduitPort {
     await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).save(ProduitTypeORMEntity.fromProduit(produit)))
   }
 
-  récupérerLesProduits(filtre?: FiltreProduit): Array<Produit> {
-    return []
+  async récupérerLesProduits(filtre?: FiltreProduit): Promise<Produit[]> {
+    const produitsDb = await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).find())
+    return produitsDb.map(p => p.toProduit)
   }
 
   async récupérerLeProduit(id: string): Promise<Produit> {

@@ -43,12 +43,12 @@ describe('recupererLesProduits', () => {
         produitPort.récupérerLesProduits = jest.fn().mockReturnValue(produitSauvegardés)
       })
 
-      it(' tous les produits', () => {
+      it(' tous les produits', async () => {
         // given
         produitPort.récupérerLesProduits = jest.fn().mockReturnValue(produitSauvegardés)
 
         // when
-        const produitRetourné = new RecupererLesProduits(produitPort as ProduitAdapter).exécuter();
+        const produitRetourné = await new RecupererLesProduits(produitPort as ProduitAdapter).exécuter();
 
         // then
         const produitsAttendus = [{
