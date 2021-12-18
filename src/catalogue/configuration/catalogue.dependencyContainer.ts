@@ -25,7 +25,7 @@ export default function createCatalogueDependencyContainer(): CatalogueDependenc
   const idGenerator = new UUIDGenerator()
   const recupererLeProduit = new RecupererLeProduit(produitPort)
   const recupererLesProduits = new RecupererLesProduits(produitPort)
-  const creerUnProduit = new CreerUnProduit(produitPort)
+  const creerUnProduit = new CreerUnProduit(produitPort, idGenerator)
   const recupererLaCommande = new RecupererLaCommande(commandePort)
   const recupererLesCommandes = new RecupererLesCommandes(commandePort)
   const creerUneCommande = new CreerUneCommande(commandePort, produitPort, idGenerator)

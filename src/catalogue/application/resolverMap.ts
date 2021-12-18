@@ -78,11 +78,11 @@ export class Resolver {
                 }
 			},
 			Mutation: {
-				sauvegarderProduit(_, {produit}, __, ___): ProduitOutputApi {
-          return _this.catalogueDependencyContainer.creerUnProduit.exécuter(produit.nom, produit.prix, produit.poids)
+				async sauvegarderProduit(_, {produit}, __, ___): Promise<ProduitOutputApi> {
+          return await _this.catalogueDependencyContainer.creerUnProduit.exécuter(produit.nom, produit.prix, produit.poids)
 				},
-                sauvegarderCommande(_: void, {commande, ...args}): CommandeOutputApi {
-				    return toCommandeOutputApi(_this.catalogueDependencyContainer.creerUneCommande.exécuter(commande.elements))
+                async sauvegarderCommande(_: void, {commande, ...args}): Promise<CommandeOutputApi> {
+				    return toCommandeOutputApi(await _this.catalogueDependencyContainer.creerUneCommande.exécuter(commande.elements))
                 }
 			},
             ResultatListeCommande: {

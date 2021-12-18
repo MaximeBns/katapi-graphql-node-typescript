@@ -2,7 +2,7 @@ import {Column, Entity, ManyToOne, PrimaryColumn} from "typeorm";
 import ProduitTypeORMEntity from "./produitTypeORMEntity";
 import CommandeTypeORMEntity from "./commandeTypeORMEntity";
 
-@Entity()
+@Entity({name: 'element_commande'})
 export default class ElementCommandeTypeORMEntity {
     @PrimaryColumn()
     readonly id: string
@@ -14,5 +14,5 @@ export default class ElementCommandeTypeORMEntity {
     readonly produit: ProduitTypeORMEntity;
 
     @Column()
-    quantité: string
+    quantité: number
 }

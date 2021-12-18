@@ -1,7 +1,7 @@
 import {Column, Entity, OneToMany, PrimaryColumn} from "typeorm";
 import ElementCommandeTypeORMEntity from "./elementCommandeTypeORMEntity";
 
-@Entity()
+@Entity({name: 'commandes'})
 export default class CommandeTypeORMEntity {
     @PrimaryColumn()
     readonly id: string

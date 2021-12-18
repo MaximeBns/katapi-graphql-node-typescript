@@ -6,14 +6,14 @@ describe('produit', () => {
         it('alors retourne un objet Produit', () => {
             // given
             const produitAttendu: Partial<Produit> = {
-              id:"1",
+                id:"1",
                 nom: "Pastèque",
                 prix: 20,
                 poids: 5,
             }
 
             // when
-            const produitCréé = Produit.creer("Pastèque", 20, 5);
+            const produitCréé = Produit.creer("1","Pastèque", 20, 5);
 
             // then
             expect(produitCréé).toEqual(produitAttendu);
@@ -26,7 +26,7 @@ describe('produit', () => {
             const nomTropCourt = 'Le';
 
            // when then
-           expect(() => Produit.creer(nomTropCourt, 20, 5)).toThrow(new Error('Le nom du produit est trop court'));
+           expect(() => Produit.creer("1", nomTropCourt, 20, 5)).toThrow(new Error('Le nom du produit est trop court'));
        });
     });
 });

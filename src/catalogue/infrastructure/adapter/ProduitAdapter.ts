@@ -16,9 +16,8 @@ export default class ProduitAdapter implements ProduitPort {
     this.listeProduit = []
   }
 
-  sauvegarderProduit(produit: Produit): Produit {
+  sauvegarderProduit(produit: Produit): void {
     this.listeProduit.push(produit)
-    return produit
   }
 
   récupérerLesProduits(filtre?: FiltreProduit): Array<Produit> {
@@ -99,7 +98,7 @@ export default class ProduitAdapter implements ProduitPort {
     }
   }
 
-  récupérerLeProduit(id: string): Produit {
-    return this.listeProduit.find(produit => produit.id === id)
+  async récupérerLeProduit(id: string): Promise<Produit> {
+    return await this.listeProduit.find(produit => produit.id === id)
   }
 }

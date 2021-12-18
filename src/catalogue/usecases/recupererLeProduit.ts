@@ -6,7 +6,7 @@ export default class RecupererLeProduit {
 		this.produitPort = produitPort;
 	}
 
-	exécuter(id: string): Produit {
-		return this.produitPort.récupérerLeProduit(id);
+	async exécuter(id: string): Promise<Produit> {
+		return await this.produitPort.récupérerLeProduit(id);
 	}
 }

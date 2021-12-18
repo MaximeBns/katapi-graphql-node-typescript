@@ -355,7 +355,7 @@ describe("ProduitAdapter", () => {
 	});
 
 
-	describe("récupérerLeProduit quand on veut récupérer un produit", () => {
+	it("récupérerLeProduit quand on veut récupérer un produit", async () => {
 		// given
 		const produitAdapter = new ProduitAdapter()
 		produitAdapter.listeProduit = [{
@@ -366,7 +366,7 @@ describe("ProduitAdapter", () => {
 		}];
 
 		// when
-		const produitRécupéré = produitAdapter.récupérerLeProduit("1");
+		const produitRécupéré = await produitAdapter.récupérerLeProduit("1");
 
 		// then
 		const produitAttendu = {

@@ -1,6 +1,7 @@
 import {Column, Entity, PrimaryColumn} from "typeorm";
+import Produit from "../../../domain/entities/produit";
 
-@Entity()
+@Entity({name: 'produits'})
 export default class ProduitTypeORMEntity {
 	@PrimaryColumn()
 	readonly id: string
@@ -13,4 +14,24 @@ export default class ProduitTypeORMEntity {
 
 	@Column()
 	poids: number
+
+	constructor(id: string, nom: string, prix: number, poids: number) {
+		this.id = id
+		this.nom = nom
+		this.prix = prix
+		this.poids = poids
+	}
+
+	static fromProduit(produit: Produit): ProduitTypeORMEntity {
+		return new ProduitTypeORMEntity(produit.id, produit.nom, produit.prix, produit.poids)
+	}
+
+	get toProduit(): Produit {
+		return {
+			id: this.id,
+			nom: this.nom,
+			prix: this.prix,
+			poids: this.poids
+		}
+	}
 }

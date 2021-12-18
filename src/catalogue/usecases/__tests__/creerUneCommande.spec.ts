@@ -19,7 +19,7 @@ describe('creerUneCommande', () => {
         creerUneCommande = new CreerUneCommande(commandePort, produitPort, idGenerator)
     })
 
-    it('Quand la création se passe bien, retourner la commande créée', () => {
+    it('Quand la création se passe bien, retourner la commande créée', async () => {
         // Given
         const elements : CommandeElementDepuisRequete[] = [
             {idProduit: '1', quantite: 2},
@@ -28,13 +28,13 @@ describe('creerUneCommande', () => {
         const pomme: Produit = {id:'1', nom: 'Pomme', prix: 2, poids: 0.2}
         const poire: Produit = {id:'2', nom: 'Poire', prix: 3, poids: 0.25}
         produitPort.récupérerLeProduit = jest.fn()
-            .mockReturnValueOnce(pomme)
-            .mockReturnValue(poire)
+            .mockResolvedValueOnce(pomme)
+            .mockResolvedValue(poire)
         idGenerator.generate = jest.fn()
             .mockReturnValue('id')
 
         // When
-        const commande = creerUneCommande.exécuter(elements)
+        const commande = await creerUneCommande.exécuter(elements)
 
 
         // Then

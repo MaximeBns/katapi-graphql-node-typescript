@@ -1,26 +1,29 @@
 import Produit from "../../domain/entities/produit";
 import CreerUnProduit from "../creerUnProduit";
 import ProduitAdapter from "../../infrastructure/adapter/ProduitAdapter";
-import {produitPortTest} from "./helper/PortsTests";
+import {idGeneratorTest, produitPortTest} from "./helper/PortsTests";
 
 describe('creerUnProduit', () => {
+    const produitPort = produitPortTest;
+    const idGenerator = idGeneratorTest;
+    const creerUnProduit = new CreerUnProduit(produitPort, idGenerator)
+
     describe('exécuter : quand on créé un produit', () => {
-        it('alors retourne le produit créé', () => {
+        it('alors retourne le produit créé', async () => {
             // given
-            const produitSauvegardé: Produit = {
-                id: "",
-                nom: "Pomme",
-                poids: 200,
-                prix: 1
-            }
-            const produitPort = produitPortTest;
-            produitPort.sauvegarderProduit = jest.fn().mockReturnValue(produitSauvegardé)
+            idGenerator.generate = jest.fn().mockReturnValue("idPomme")
 
             // when
-            const produitRetourné = new CreerUnProduit(produitPort as ProduitAdapter).exécuter("Pomme", 200, 1);
+            const produitRetourné = await creerUnProduit.exécuter("Pomme", 1, 200);
 
             // then
-            expect(produitRetourné).toEqual(produitSauvegardé);
+            const pomme = {
+                id: "idPomme",
+                nom: "Pomme",
+                prix: 1,
+                poids: 200
+            }
+            expect(produitRetourné).toEqual(pomme);
         });
     });
 });

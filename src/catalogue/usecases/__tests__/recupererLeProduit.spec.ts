@@ -5,7 +5,7 @@ import {produitPortTest} from "./helper/PortsTests";
 
 describe('recupererLeProduit', () => {
     describe('exécuter : quand on récupère un produit par id', () => {
-        it('alors retourne le produit', () => {
+        it('alors retourne le produit', async () => {
             // given
             const produitPort = produitPortTest;
             const id = "1"
@@ -18,7 +18,7 @@ describe('recupererLeProduit', () => {
             produitPort.récupérerLeProduit = jest.fn().mockReturnValue(produitSauvegardé)
 
             // when
-            const produitRetourné = new RecupererLeProduit(produitPort as ProduitAdapter).exécuter(id);
+            const produitRetourné = await new RecupererLeProduit(produitPort as ProduitAdapter).exécuter(id);
 
             // then
             const produitAttendu = {
