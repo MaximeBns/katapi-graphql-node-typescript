@@ -9,19 +9,19 @@ export default class CommandeAdapter implements CommandePort {
         this.commandes = []
     }
 
-    sauvegarderCommande(commande: Commande): void {
+    async sauvegarderCommande(commande: Commande): Promise<void> {
         this.commandes.push(commande)
     }
 
-    récupérerCommande(id: string): Commande {
+    async récupérerCommande(id: string): Promise<Commande> {
         const commande =  this.commandes.find(commande => commande.id === id)
         if (!commande) {
             throw new CommandeNonTrouvee(id)
         }
-        return commande
+        return  commande
     }
 
-    récupérerToutesLesCommandes(): Commande[] {
+    async récupérerToutesLesCommandes(): Promise<Commande[]> {
         return this.commandes
     }
 }

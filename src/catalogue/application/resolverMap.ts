@@ -9,14 +9,13 @@ import {ProduitOutputApi} from "./produit/ProduitOutputApi";
 
 //Todo: transformer cela en function
 export class Resolver {
-
-  constructor(private catalogueDependencyContainer: CatalogueDependencyContainer) {
+    constructor(private catalogueDependencyContainer: CatalogueDependencyContainer) {
   }
 
-  getResolvers(): IResolvers {
-    const _this = this;
-    return {
-      Query: {
+    getResolvers(): IResolvers {
+      const _this = this;
+      return {
+          Query: {
         async recupererLesProduits(_, {filter}, __, ___) {
             try {
                 const produits = await _this.catalogueDependencyContainer.recupererLesProduits.exécuter(filter)
@@ -40,8 +39,8 @@ export class Resolver {
             }
         }
         ,
-        recupererLeProduit(_, {id}, __, ___) {
-                    const produit = _this.catalogueDependencyContainer.recupererLeProduit.exécuter(id)
+        async recupererLeProduit(_, {id}, __, ___) {
+                    const produit = await _this.catalogueDependencyContainer.recupererLeProduit.exécuter(id)
                     if(produit){
                         return {
                             __typename: "Produit",
@@ -52,53 +51,53 @@ export class Resolver {
                         __typename: 'ProduitNonTrouve',
                         message: `Le produit avec l'id ${id} n'existe pas`
                     }
-				},
-                recupererLesCommandes(_: void, {...args}) : ListeCommandeOutputApi | ErreurOutputApi {
-                    try {
-                        return {
-                            commandes: _this.catalogueDependencyContainer.recupererLesCommandes.exécuter()
-                                .map(toCommandeOutputApi)
-                        }
-                    } catch (e) {
-                        return {
-                            __typename: 'CommandeNonTrouvee',
-                            message: e.message
-                        }
-                    }
-                },
-                recupererLaCommande(_: void, {id, ...args}): CommandeOutputApi | ErreurOutputApi {
-				    try {
-                        return toCommandeOutputApi(_this.catalogueDependencyContainer.recupererLaCommande.exécuter(id))
-                    } catch (e) {
-                        return {
-                            __typename: 'CommandeNonTrouvee',
-                            message: e.message
-                        }
-                    }
+        },
+        async recupererLesCommandes(_: void, {...args}) : Promise<ListeCommandeOutputApi | ErreurOutputApi> {
+            try {
+                const commandes = await _this.catalogueDependencyContainer.recupererLesCommandes.exécuter()
+                return {
+                    commandes: commandes.map(toCommandeOutputApi)
                 }
-			},
-			Mutation: {
-				async sauvegarderProduit(_, {produit}, __, ___): Promise<ProduitOutputApi> {
-          return await _this.catalogueDependencyContainer.creerUnProduit.exécuter(produit.nom, produit.prix, produit.poids)
-				},
-                async sauvegarderCommande(_: void, {commande, ...args}): Promise<CommandeOutputApi> {
-				    return toCommandeOutputApi(await _this.catalogueDependencyContainer.creerUneCommande.exécuter(commande.elements))
+            } catch (e) {
+                return {
+                    __typename: 'CommandeNonTrouvee',
+                    message: e.message
                 }
-			},
-            ResultatListeCommande: {
-                __resolveType: (obj) => {
-                    if ('commandes' in obj) return 'ListeCommande'
-                    else return 'CommandeNonTrouvee'
-                },
-            },
-            ResultatProduit: {
-                __resolveType: (obj) => {
-                    if ('nom' in obj) return 'Produit'
-                    else return 'ProduitNonTrouve'
-                },
             }
-		};
-	}
+        },
+        async recupererLaCommande(_: void, {id, ...args}): Promise<CommandeOutputApi | ErreurOutputApi> {
+            try {
+                return toCommandeOutputApi(await _this.catalogueDependencyContainer.recupererLaCommande.exécuter(id))
+            } catch (e) {
+                return {
+                    __typename: 'CommandeNonTrouvee',
+                    message: e.message
+                }
+            }
+        }
+    },
+          Mutation: {
+        async sauvegarderProduit(_, {produit}, __, ___): Promise<ProduitOutputApi> {
+          return await _this.catalogueDependencyContainer.creerUnProduit.exécuter(produit.nom, produit.prix, produit.poids)
+                },
+                async sauvegarderCommande(_: void, {commande, ...args}): Promise<CommandeOutputApi> {
+                    return toCommandeOutputApi(await _this.catalogueDependencyContainer.creerUneCommande.exécuter(commande.elements))
+                }
+            },
+          ResultatListeCommande: {
+            __resolveType: (obj) => {
+                if ('commandes' in obj) return 'ListeCommande'
+                else return 'CommandeNonTrouvee'
+            },
+        },
+          ResultatProduit: {
+            __resolveType: (obj) => {
+                if ('nom' in obj) return 'Produit'
+                else return 'ProduitNonTrouve'
+            },
+        }
+      };
+    }
 }
 
 export default Resolver;

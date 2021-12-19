@@ -4,25 +4,46 @@ import TypeORMClient from "../../../configuration/database/TypeORMClient";
 import CommandeTypeORMEntity from "../../configuration/db/type-orm-entity/commandeTypeORMEntity";
 import ElementCommandeTypeORMEntity from "../../configuration/db/type-orm-entity/elementCommandeTypeORMEntity";
 import {IdGenerator} from "../../domain/ports/idGenerator";
+import ProduitTypeORMEntity from "../../configuration/db/type-orm-entity/produitTypeORMEntity";
+import {CommandeNonTrouvee} from "../../domain/errors/CommandeNonTrouvee";
 
 export default class DatabaseCommandeAdapter implements CommandePort {
     constructor(private typeORMClient: TypeORMClient, private idGenerator: IdGenerator) {}
 
-    récupérerCommande(id: string): Promise<Commande> {
-        return Promise.resolve(undefined);
+    async récupérerCommande(id: string): Promise<Commande> {
+        // a splitter en plusieurs adapter pour la partie read
+        const commandeAvecElementsDeLaBase = await this.typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).findOne({id: 'id'}, {relations:['elements']}));
+        if (!commandeAvecElementsDeLaBase) {
+            throw new CommandeNonTrouvee(id)
+        }
+        return await this.mapperCommande(commandeAvecElementsDeLaBase);
     }
 
-    récupérerToutesLesCommandes(): Promise<Commande[]> {
-        return Promise.resolve([]);
+    async récupérerToutesLesCommandes(): Promise<Commande[]> {
+        const commandesDeLaBase =  await this.typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).find({relations:['elements']}))
+        return await Promise.all(commandesDeLaBase.map(async commande => this.mapperCommande(commande)))
     }
 
     async sauvegarderCommande(commande: Commande): Promise<void> {
         const elementsASauvegarder = commande.elements.map(element => {
-            console.log('plop');
             return new ElementCommandeTypeORMEntity(this.idGenerator.generate(), commande.id, element.produitId, element.quantité)
         })
         const commandeASauvegarder = CommandeTypeORMEntity.fromCommandeAvecElements(commande, elementsASauvegarder)
-        console.log(commandeASauvegarder);
         await this.typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).save(commandeASauvegarder))
+    }
+
+    private async mapperCommande(commandeAvecElementsDeLaBase: CommandeTypeORMEntity) {
+        const commande = Commande.init(commandeAvecElementsDeLaBase.id)
+        const elements = await Promise.all(commandeAvecElementsDeLaBase.elements.map(async element => this.mapperElement(element)))
+        elements.forEach(element => commande.ajouterElement(element.produit, element.quantité))
+        return commande
+    }
+
+    private async mapperElement(elementDeLaBase: ElementCommandeTypeORMEntity) {
+        const produitDeLaBase =  await this.typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).findOne({id: elementDeLaBase.produitId}))
+        return {
+            produit: produitDeLaBase.toProduit,
+            quantité: elementDeLaBase.quantité
+        }
     }
 }

@@ -13,22 +13,22 @@ describe('CommandeAdapter', () => {
     })
 
     describe('creerCommande quand on veut créer une commande, puis récupérerCommande quand on veut la récupérer', () => {
-        it('récupère correctement la commande lorsque sa création a fonctionné', () => {
+        it('récupère correctement la commande lorsque sa création a fonctionné', async () => {
             // Given
             const commande = uneCommandeAvecDeuxPommesEtTroisPoires()
 
             // When
-            commandeAdapter.sauvegarderCommande(commande)
+            await commandeAdapter.sauvegarderCommande(commande)
 
             // Then
-            expect(commandeAdapter.récupérerCommande(commande.id)).toEqual(commande)
+            expect(await commandeAdapter.récupérerCommande(commande.id)).toEqual(commande)
         })
     })
 
-    it('récupérerCommande lève une erreur lorsque la commande n\'existe pas', () => {
+    it('récupérerCommande lève une erreur lorsque la commande n\'existe pas', async () => {
         // When
         try {
-            commandeAdapter.récupérerCommande('id')
+            await commandeAdapter.récupérerCommande('id')
             assert.fail()
         } catch (e) {
         // Then
@@ -39,7 +39,7 @@ describe('CommandeAdapter', () => {
     })
 
     describe('récupérerCommande', () => {
-        it('récupère la liste des commandes', () => {
+        it('récupère la liste des commandes', async () => {
             // Given
             const commande1 = uneCommandeAvecDeuxPommesEtTroisPoires()
             // @ts-ignore
@@ -51,7 +51,7 @@ describe('CommandeAdapter', () => {
             commandeAdapter.sauvegarderCommande(commande2)
 
             // When
-            const commandes = commandeAdapter.récupérerToutesLesCommandes()
+            const commandes = await commandeAdapter.récupérerToutesLesCommandes()
 
             // Then
             expect(commandes.length).toEqual(2)
