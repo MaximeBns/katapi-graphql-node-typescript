@@ -67,7 +67,8 @@ export class Resolver {
         },
         async recupererLaCommande(_: void, {id, ...args}): Promise<CommandeOutputApi | ErreurOutputApi> {
             try {
-                return toCommandeOutputApi(await _this.catalogueDependencyContainer.recupererLaCommande.exécuter(id))
+                const commande = await _this.catalogueDependencyContainer.recupererLaCommande.exécuter(id)
+                return toCommandeOutputApi(commande)
             } catch (e) {
                 return {
                     __typename: 'CommandeNonTrouvee',

@@ -8,6 +8,10 @@ import RecupererLesCommandes from "../usecases/recupererLesCommandes";
 import CreerUneCommande from "../usecases/creerUneCommande";
 import CommandeAdapter from "../infrastructure/adapter/commandeAdapter";
 import {UUIDGenerator} from "../infrastructure/adapter/uuidGenerator";
+import DatabaseProduitAdapter from "../infrastructure/adapter/DatabaseProduitAdapter";
+import TypeORMClient from "../../configuration/database/TypeORMClient";
+import {createPostgresConnection} from "../../configuration/database/createPostgresConnection";
+import DatabaseCommandeAdapter from "../infrastructure/adapter/DatabaseCommandeAdapter";
 
 
 export type CatalogueDependencyContainer = {
@@ -20,9 +24,10 @@ export type CatalogueDependencyContainer = {
 };
 
 export default function createCatalogueDependencyContainer(): CatalogueDependencyContainer {
-  const produitPort = new ProduitAdapter()
-  const commandePort = new CommandeAdapter()
   const idGenerator = new UUIDGenerator()
+  const typeORMClient = new TypeORMClient(createPostgresConnection())
+  const produitPort = new DatabaseProduitAdapter(typeORMClient)
+  const commandePort = new DatabaseCommandeAdapter(typeORMClient, idGenerator)
   const recupererLeProduit = new RecupererLeProduit(produitPort)
   const recupererLesProduits = new RecupererLesProduits(produitPort)
   const creerUnProduit = new CreerUnProduit(produitPort, idGenerator)

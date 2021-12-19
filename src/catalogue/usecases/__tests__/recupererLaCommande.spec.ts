@@ -15,18 +15,18 @@ describe('recupererLaCommande', () => {
     })
 
     describe('exécuter : quand on récupère la commande par id', () => {
-        it('renvoie la commande lorsqu\'elle existe', () => {
+        it('renvoie la commande lorsqu\'elle existe', async () => {
             // Given
             commandePort.récupérerCommande = jest.fn().mockReturnValue(uneCommandeAvecDeuxPommesEtTroisPoires())
 
             // When
-            const commandeRecuperee = recupererLaCommande.exécuter('id')
+            const commandeRecuperee = await recupererLaCommande.exécuter('id')
 
             // Then
             expect(commandeRecuperee).toEqual(uneCommandeAvecDeuxPommesEtTroisPoires())
         })
 
-        it('lève une erreur lorsque la commande n\'existe pas', () => {
+        it('lève une erreur lorsque la commande n\'existe pas', async () => {
             // Given
             commandePort.récupérerCommande = jest.fn(() => {
                 throw new CommandeNonTrouvee('id')
@@ -34,7 +34,7 @@ describe('recupererLaCommande', () => {
 
             try {
                 // When
-                recupererLaCommande.exécuter('id')
+                await recupererLaCommande.exécuter('id')
                 assert.fail()
             } catch (e) {
                 // Then
