@@ -94,7 +94,7 @@ export default class ProduitAdapter implements ProduitPort {
       return produitsFiltré
     } else {
       throw new AucunProduitTrouve(http2.constants.HTTP_STATUS_NOT_FOUND,
-        "aucun produits trouvés avec ces paramètres")
+        "aucun produit trouvé avec ces paramètres")
     }
   }
 

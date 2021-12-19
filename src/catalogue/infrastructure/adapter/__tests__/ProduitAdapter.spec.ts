@@ -26,7 +26,7 @@ describe("ProduitAdapter", () => {
 		let produitSauvegardés : Array<Produit>
 		let produitAdapter : ProduitAdapter
 
-		beforeEach(()=>{
+		beforeEach(() => {
 			produitSauvegardés = [{
 				id: "1",
 				nom: "Pomme",
@@ -80,11 +80,11 @@ describe("ProduitAdapter", () => {
 			expect(produitsRécupérés).toContainEqual(produitAttendu);
 		});
 
-		describe("filtré", ()=>{
-			describe('contenant le pattern \'po\' ', ()=>{
-				describe("par ordre", ()=>{
-					describe("croissant de", ()=>{
-						describe("nom", ()=>{
+		describe("filtré", () => {
+			describe('contenant le pattern \'po\' ', () => {
+				describe("par ordre", () => {
+					describe("croissant de", () => {
+						describe("nom", () => {
 							it("alors retourne une liste de produit trié par nom croissant", async () => {
 								//given
 								const filtre: FiltreProduit = {
@@ -122,7 +122,7 @@ describe("ProduitAdapter", () => {
 								expect(produitRetourné).toEqual(produitsAttendus);
 							})
 						})
-						describe("prix", ()=>{
+						describe("prix", () => {
 							it("alors retourne une liste de produit trié par ordre de prix", async () => {
 								const filtre: FiltreProduit = {
 									by: FilteredProductFilled.Prix,
@@ -159,7 +159,7 @@ describe("ProduitAdapter", () => {
 
 							})
 						})
-						describe("poids", ()=>{
+						describe("poids", () => {
 							it("alors retourne une liste de produit trié par ordre de poids croissant", async () => {
 								//Given
 								const filtre: FiltreProduit = {
@@ -199,8 +199,8 @@ describe("ProduitAdapter", () => {
 						})
 					})
 
-					describe("décroissant de", ()=>{
-						describe("nom", ()=>{
+					describe("décroissant de", () => {
+						describe("nom", () => {
 							it("alors retourne une liste de produit trié par nom décroissant", async () => {
 								//given
 								const filtre: FiltreProduit = {
@@ -239,7 +239,7 @@ describe("ProduitAdapter", () => {
 							})
 						})
 
-						describe("prix", ()=>{
+						describe("prix", () => {
 							it("alors retourne une liste de produit trié par ordre de prix décroissant", async () => {
 								//Given
 								const filtre: FiltreProduit = {
@@ -279,7 +279,7 @@ describe("ProduitAdapter", () => {
 							})
 						})
 
-						describe("poids", ()=>{
+						describe("poids", () => {
 							it("alors retourne une liste de produit trié par ordre de poids décroissant", async () => {
 								//Given
 								const filtre: FiltreProduit = {
@@ -324,7 +324,7 @@ describe("ProduitAdapter", () => {
 			})
 		})
 
-		describe("limité", ()=>{
+		describe("limité", () => {
 			it(" à 2 produits alors retourne 2 produits ", async () => {
 				//given
 				const filter: FiltreProduit = {

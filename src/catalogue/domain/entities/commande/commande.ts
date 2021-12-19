@@ -7,7 +7,10 @@ export enum StatutCommande {
 }
 
 export class CommandeElement {
-    constructor(readonly produit: Produit, readonly quantité: number) {
+    constructor(readonly produit: Produit, readonly quantité: number) {}
+
+    get produitId(): string {
+        return this.produit.id
     }
 }
 
