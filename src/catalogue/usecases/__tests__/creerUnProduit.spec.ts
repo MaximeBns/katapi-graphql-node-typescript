@@ -1,6 +1,4 @@
-import Produit from "../../domain/entities/produit";
 import CreerUnProduit from "../creerUnProduit";
-import ProduitAdapter from "../../infrastructure/adapter/ProduitAdapter";
 import {idGeneratorTest, produitPortTest} from "./helper/PortsTests";
 
 describe('creerUnProduit', () => {
