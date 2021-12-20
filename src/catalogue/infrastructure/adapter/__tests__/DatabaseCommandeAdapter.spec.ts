@@ -13,9 +13,9 @@ describe('DatabaseCommandeAdapter',  () => {
     const idGenerator = idGeneratorTest
     const adapter = new DatabaseCommandeAdapter(typeORMClient, idGenerator)
 
-    beforeEach(() => {
+    beforeEach(async () => {
         const produitsDisponibles = [unePomme(), unePoire()].map(fruit => ProduitTypeORMEntity.fromProduit(fruit))
-        typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).save(produitsDisponibles))
+        await typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).save(produitsDisponibles))
         idGenerator.generate = jest.fn().mockReturnValueOnce('4a8ca649-e26a-4ccf-950b-24158ccffc76')
             .mockReturnValue('88b0a66d-2e40-4eba-9b08-a8e954d02241')
     })

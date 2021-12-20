@@ -12,7 +12,7 @@ export default class DatabaseCommandeAdapter implements CommandePort {
 
     async récupérerCommande(id: string): Promise<Commande> {
         // a splitter en plusieurs adapter pour la partie read
-        const commandeAvecElementsDeLaBase = await this.typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).findOne({id: 'id'}, {relations:['elements']}));
+        const commandeAvecElementsDeLaBase = await this.typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).findOne({id: id}, {relations:['elements']}));
         if (!commandeAvecElementsDeLaBase) {
             throw new CommandeNonTrouvee(id)
         }

@@ -72,6 +72,7 @@ export class Resolver {
             } catch (e) {
                 return {
                     __typename: 'CommandeNonTrouvee',
+                    id: id,
                     message: e.message
                 }
             }
