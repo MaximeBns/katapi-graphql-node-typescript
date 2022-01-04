@@ -1,4 +1,5 @@
 import {Connection} from "typeorm";
+import ServiceIndisponible from "../../shared/domain/error/ServiceIndisponible";
 
 export default class TypeORMClient {
     private databaseConnection : Connection = null
@@ -13,8 +14,7 @@ export default class TypeORMClient {
         try {
             await (await this.dbConnectionPromise).close()
         } catch (erreur) {
-            throw erreur
-            //throw new ServiceIndisponible()
+            throw new ServiceIndisponible()
         }
     }
 
@@ -23,8 +23,7 @@ export default class TypeORMClient {
             try {
                 this.databaseConnection = await this.dbConnectionPromise
             } catch (erreur) {
-                throw erreur
-                //throw new ServiceIndisponible()
+                throw new ServiceIndisponible()
             }
         }
         return this.databaseConnection

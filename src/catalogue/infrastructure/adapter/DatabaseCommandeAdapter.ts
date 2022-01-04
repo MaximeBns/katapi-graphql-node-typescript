@@ -34,12 +34,12 @@ export default class DatabaseCommandeAdapter implements CommandePort {
 
     private async mapperCommande(commandeAvecElementsDeLaBase: CommandeTypeORMEntity) {
         const commande = Commande.init(commandeAvecElementsDeLaBase.id)
-        const elements = await Promise.all(commandeAvecElementsDeLaBase.elements.map(async element => this.mapperElement(element)))
+        const elements = await Promise.all(commandeAvecElementsDeLaBase.elements.map(async element => this.récupérerElement(element)))
         elements.forEach(element => commande.ajouterElement(element.produit, element.quantité))
         return commande
     }
 
-    private async mapperElement(elementDeLaBase: ElementCommandeTypeORMEntity) {
+    private async récupérerElement(elementDeLaBase: ElementCommandeTypeORMEntity) {
         const produitDeLaBase =  await this.typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).findOne({id: elementDeLaBase.produitId}))
         return {
             produit: produitDeLaBase.toProduit,
