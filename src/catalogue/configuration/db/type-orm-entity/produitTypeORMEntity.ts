@@ -7,7 +7,7 @@ export default class ProduitTypeORMEntity {
 	readonly id: string
 
 	@Column()
-	readonly nom: string
+	nom: string
 
 	@Column({type: 'float'})
 	prix: number
