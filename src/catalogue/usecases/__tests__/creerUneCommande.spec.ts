@@ -31,7 +31,9 @@ describe('creerUneCommande', () => {
             .mockResolvedValueOnce(pomme)
             .mockResolvedValue(poire)
         idGenerator.generate = jest.fn()
-            .mockReturnValue('id')
+            .mockReturnValueOnce('id')
+            .mockReturnValueOnce('id-el-1')
+            .mockReturnValue('id-el-2')
 
         // When
         const commande = await creerUneCommande.exécuter(elements)

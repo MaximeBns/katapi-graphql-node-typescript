@@ -24,7 +24,7 @@ export default function createCatalogueDependencyContainer(): CatalogueDependenc
   const idGenerator = new UUIDGenerator()
   const typeORMClient = new TypeORMClient(createPostgresConnection())
   const produitPort = new DatabaseProduitAdapter(typeORMClient)
-  const commandePort = new DatabaseCommandeAdapter(typeORMClient, idGenerator)
+  const commandePort = new DatabaseCommandeAdapter(typeORMClient)
   const recupererLeProduit = new RecupererLeProduit(produitPort)
   const recupererLesProduits = new RecupererLesProduits(produitPort)
   const creerUnProduit = new CreerUnProduit(produitPort, idGenerator)

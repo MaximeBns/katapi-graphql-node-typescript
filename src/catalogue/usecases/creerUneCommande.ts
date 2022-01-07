@@ -20,6 +20,6 @@ export default class CreerUneCommande {
 
     private async ajouterElementALaCommande(commande: Commande, elementDepuisRequete: CommandeElementDepuisRequete): Promise<void> {
         const produit = await this.produitPort.récupérerLeProduit(elementDepuisRequete.idProduit)
-        commande.ajouterElement(produit, elementDepuisRequete.quantite)
+        commande.ajouterElement(this.idGenerator.generate(), produit, elementDepuisRequete.quantite)
     }
 }

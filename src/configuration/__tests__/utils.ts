@@ -11,7 +11,7 @@ export function unePoire(): Produit {
 
 export function uneCommandeAvecDeuxPommesEtTroisPoires() : Commande {
     const commande = Commande.init('id')
-    commande.ajouterElement(unePomme(), 2)
-    commande.ajouterElement(unePoire(), 3)
+    commande.ajouterElement('id-el-1', unePomme(), 2)
+    commande.ajouterElement('id-el-2', unePoire(), 3)
     return commande
 }

@@ -5,19 +5,15 @@ import {uneCommandeAvecDeuxPommesEtTroisPoires, unePoire, unePomme} from "../../
 import assert from "assert";
 import {CommandeNonTrouvee} from "../../../domain/errors/CommandeNonTrouvee";
 import CommandeTypeORMEntity from "../../../configuration/db/type-orm-entity/commandeTypeORMEntity";
-import {idGeneratorTest} from "../../../usecases/__tests__/helper/PortsTests";
 import ProduitTypeORMEntity from "../../../configuration/db/type-orm-entity/produitTypeORMEntity";
 
 describe('DatabaseCommandeAdapter',  () => {
     const typeORMClient = new TypeORMClient(createPostgresConnection())
-    const idGenerator = idGeneratorTest
-    const adapter = new DatabaseCommandeAdapter(typeORMClient, idGenerator)
+    const adapter = new DatabaseCommandeAdapter(typeORMClient)
 
     beforeEach(async () => {
         const produitsDisponibles = [unePomme(), unePoire()].map(fruit => ProduitTypeORMEntity.fromProduit(fruit))
         await typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).save(produitsDisponibles))
-        idGenerator.generate = jest.fn().mockReturnValueOnce('4a8ca649-e26a-4ccf-950b-24158ccffc76')
-            .mockReturnValue('88b0a66d-2e40-4eba-9b08-a8e954d02241')
     })
 
     afterEach(async () => {
@@ -38,13 +34,13 @@ describe('DatabaseCommandeAdapter',  () => {
                 elements: [
                     {
                         commandeId: "id",
-                        id: "4a8ca649-e26a-4ccf-950b-24158ccffc76",
+                        id: "id-el-1",
                         produitId: "1",
                         quantité: 2
                     },
                     {
                         commandeId: "id",
-                        id: "88b0a66d-2e40-4eba-9b08-a8e954d02241",
+                        id: "id-el-2",
                         produitId: "2",
                         quantité: 3
                     }
@@ -67,13 +63,13 @@ describe('DatabaseCommandeAdapter',  () => {
                 elements: [
                     {
                         commandeId: "id",
-                        id: "4a8ca649-e26a-4ccf-950b-24158ccffc76",
+                        id: "id-el-1",
                         produitId: "1",
                         quantité: 2
                     },
                     {
                         commandeId: "id",
-                        id: "88b0a66d-2e40-4eba-9b08-a8e954d02241",
+                        id: "id-el-2",
                         produitId: "2",
                         quantité: 3
                     }
@@ -114,16 +110,16 @@ describe('DatabaseCommandeAdapter',  () => {
                 elements: [
                     {
                         commandeId: "id",
-                        id: "2a8ca649-e26a-4ccf-950b-24158ccffc76",
+                        id: "id-el-1",
                         produitId: "1",
                         quantité: 2
                     },
                     {
                         commandeId: "id",
-                        id: "18b0a66d-2e40-4eba-9b08-a8e954d02241",
+                        id: "id-el-2",
                         produitId: "2",
                         quantité: 3
-                    }
+                    },
                 ],
                 fraisDePort: 2.875,
                 id: "id",
@@ -135,16 +131,16 @@ describe('DatabaseCommandeAdapter',  () => {
                 elements: [
                     {
                         commandeId: "id2",
-                        id: "4a8ca649-e26a-4ccf-950b-25158ccffc76",
+                        id: "id-el-3",
                         produitId: "1",
                         quantité: 2
                     },
                     {
                         commandeId: "id2",
-                        id: "88b0a66d-2e40-4eba-9b08-a8e854d02241",
+                        id: "id-el-4",
                         produitId: "2",
                         quantité: 3
-                    }
+                    },
                 ],
                 fraisDePort: 2.875,
                 id: "id2",
@@ -161,7 +157,17 @@ describe('DatabaseCommandeAdapter',  () => {
             const commande1 = uneCommandeAvecDeuxPommesEtTroisPoires()
             const commande2 = {
                 ...commande1,
-                id: 'id2'
+                id: 'id2',
+                elements : [
+                    {
+                        ...commande1.elements[0],
+                        id: 'id-el-3'
+                    },
+                    {
+                        ...commande1.elements[1],
+                        id: 'id-el-4'
+                    },
+                ]
             }
             expect(commandes.length).toEqual(2)
             expect(commandes[0]).toEqual(commande1)
