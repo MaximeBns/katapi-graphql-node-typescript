@@ -1,5 +1,4 @@
 import createCatalogueDependencyContainer, {CatalogueDependencyContainer} from "../catalogue/configuration/catalogue.dependencyContainer";
-import ProduitAdapter from "../catalogue/infrastructure/adapter/ProduitAdapter";
 
 export type ServerDependencyContainer = {
 	catalogueDependencyContainer: CatalogueDependencyContainer

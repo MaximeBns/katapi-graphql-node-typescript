@@ -13,10 +13,9 @@ export default class Produit {
         this.poids = poids;
     }
 
-    static creer(nom: string, prix: number, poids: number): Produit {
+    static creer(id: string, nom: string, prix: number, poids: number): Produit {
         if (nom.length < Produit.TAILLE_NOM_MINIMUM) throw new Error("Le nom du produit est trop court");
-      const randomId = Math.round(Math.random() *10).toString();
 
-      return new Produit(randomId, nom, prix, poids)
+      return new Produit(id, nom, prix, poids)
     }
 }

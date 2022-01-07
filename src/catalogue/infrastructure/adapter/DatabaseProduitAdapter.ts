@@ -8,24 +8,28 @@ import {
 } from "../../usecases/recupererLesProduits/filtreProduit";
 import {AucunProduitTrouve} from "../../domain/errors/AucunProduitTrouve";
 import http2 from "http2";
+import TypeORMClient from "../../../configuration/database/TypeORMClient";
+import ProduitTypeORMEntity from "../../configuration/db/type-orm-entity/produitTypeORMEntity";
 
-export default class ProduitAdapter implements ProduitPort {
-  listeProduit: Produit[]
+export default class DatabaseProduitAdapter implements ProduitPort {
+  constructor(private typeORMClient: TypeORMClient) {}
 
-  constructor() {
-    this.listeProduit = []
+  async sauvegarderProduit(produit: Produit): Promise<void> {
+    await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).save(ProduitTypeORMEntity.fromProduit(produit)))
   }
 
-  sauvegarderProduit(produit: Produit): Produit {
-    this.listeProduit.push(produit)
-    return produit
-  }
-
-  récupérerLesProduits(filtre?: FiltreProduit): Array<Produit> {
+  async récupérerLesProduits(filtre?: FiltreProduit): Promise<Produit[]> {
+    // todo : se servir de typeorm directement pour trier les produits
+    const produitsDb = await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).find())
     if (filtre) {
-      return this.filtrerProduits(this.listeProduit, filtre)
+      return this.filtrerProduits(produitsDb.map(p => p.toProduit()), filtre)
     }
-    return this.listeProduit
+    return produitsDb.map(p => p.toProduit())
+  }
+
+  async récupérerLeProduit(id: string): Promise<Produit> {
+    const produitDB = await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).findOne({id}))
+    return produitDB.toProduit()
   }
 
   private filtrerProduits(produitsNonFiltres: Array<Produit>, filter: FiltreProduit): Array<Produit> {
@@ -95,11 +99,7 @@ export default class ProduitAdapter implements ProduitPort {
       return produitsFiltré
     } else {
       throw new AucunProduitTrouve(http2.constants.HTTP_STATUS_NOT_FOUND,
-        "aucun produits trouvés avec ces paramètres")
+          "aucun produits trouvés avec ces paramètres")
     }
-  }
-
-  récupérerLeProduit(id: string): Produit {
-    return this.listeProduit.find(produit => produit.id === id)
   }
 }

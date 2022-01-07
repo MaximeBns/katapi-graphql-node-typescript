@@ -7,7 +7,10 @@ export enum StatutCommande {
 }
 
 export class CommandeElement {
-    constructor(readonly produit: Produit, readonly quantité: number) {
+    constructor(readonly id: string, readonly produit: Produit, readonly quantité: number) {}
+
+    get produitId(): string {
+        return this.produit.id
     }
 }
 
@@ -27,8 +30,8 @@ export default class Commande {
         return new Commande(id)
     }
 
-    ajouterElement(produit: Produit, quantité: number): void {
-        this.elements.push(new CommandeElement(produit, quantité))
+    ajouterElement(id: string, produit: Produit, quantité: number): void {
+        this.elements.push(new CommandeElement(id, produit, quantité))
     }
 
     get poids(): number {

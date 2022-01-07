@@ -1,13 +1,14 @@
 import RecupererLeProduit from "../usecases/recupererLeProduit";
 import RecupererLesProduits from "../usecases/recupererLesProduits/recupererLesProduits";
 import CreerUnProduit from "../usecases/creerUnProduit";
-import ProduitPort from "../domain/ports/produitPort";
-import ProduitAdapter from "../infrastructure/adapter/ProduitAdapter";
 import RecupererLaCommande from "../usecases/recupererLaCommande";
 import RecupererLesCommandes from "../usecases/recupererLesCommandes";
 import CreerUneCommande from "../usecases/creerUneCommande";
-import CommandeAdapter from "../infrastructure/adapter/commandeAdapter";
 import {UUIDGenerator} from "../infrastructure/adapter/uuidGenerator";
+import DatabaseProduitAdapter from "../infrastructure/adapter/DatabaseProduitAdapter";
+import TypeORMClient from "../../configuration/database/TypeORMClient";
+import {createPostgresConnection} from "../../configuration/database/createPostgresConnection";
+import DatabaseCommandeAdapter from "../infrastructure/adapter/DatabaseCommandeAdapter";
 
 
 export type CatalogueDependencyContainer = {
@@ -20,21 +21,16 @@ export type CatalogueDependencyContainer = {
 };
 
 export default function createCatalogueDependencyContainer(): CatalogueDependencyContainer {
-  const produitPort = new ProduitAdapter()
-  const commandePort = new CommandeAdapter()
   const idGenerator = new UUIDGenerator()
-  const recupererLeProduit = new RecupererLeProduit(produitPort)
-  const recupererLesProduits = new RecupererLesProduits(produitPort)
-  const creerUnProduit = new CreerUnProduit(produitPort)
-  const recupererLaCommande = new RecupererLaCommande(commandePort)
-  const recupererLesCommandes = new RecupererLesCommandes(commandePort)
-  const creerUneCommande = new CreerUneCommande(commandePort, produitPort, idGenerator)
+  const typeORMClient = new TypeORMClient(createPostgresConnection())
+  const produitPort = new DatabaseProduitAdapter(typeORMClient)
+  const commandePort = new DatabaseCommandeAdapter(typeORMClient)
   return {
-    recupererLeProduit,
-    recupererLesProduits,
-    creerUnProduit,
-    recupererLaCommande,
-    recupererLesCommandes,
-    creerUneCommande
+    recupererLeProduit : new RecupererLeProduit(produitPort),
+    recupererLesProduits : new RecupererLesProduits(produitPort),
+    creerUnProduit : new CreerUnProduit(produitPort, idGenerator),
+    recupererLaCommande : new RecupererLaCommande(commandePort),
+    recupererLesCommandes : new RecupererLesCommandes(commandePort),
+    creerUneCommande : new CreerUneCommande(commandePort, produitPort, idGenerator)
   }
 }

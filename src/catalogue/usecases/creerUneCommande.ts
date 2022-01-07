@@ -11,13 +11,15 @@ export type CommandeElementDepuisRequete = Readonly<{
 export default class CreerUneCommande {
     constructor(private commandePort: CommandePort, private produitPort: ProduitPort, private idGenerator: IdGenerator) {}
 
-    exécuter(elements: CommandeElementDepuisRequete[]): Commande {
+    async exécuter(elementDepuisRequete: CommandeElementDepuisRequete[]): Promise<Commande> {
         const commande = Commande.init(this.idGenerator.generate())
-        elements.forEach((elementDepuisRequete) => {
-            const produit = this.produitPort.récupérerLeProduit(elementDepuisRequete.idProduit)
-            commande.ajouterElement(produit, elementDepuisRequete.quantite)
-        })
+        await Promise.all(elementDepuisRequete.map(elementDepuisRequete => this.ajouterElementALaCommande(commande, elementDepuisRequete)))
         this.commandePort.sauvegarderCommande(commande)
         return commande
+    }
+
+    private async ajouterElementALaCommande(commande: Commande, elementDepuisRequete: CommandeElementDepuisRequete): Promise<void> {
+        const produit = await this.produitPort.récupérerLeProduit(elementDepuisRequete.idProduit)
+        commande.ajouterElement(this.idGenerator.generate(), produit, elementDepuisRequete.quantite)
     }
 }

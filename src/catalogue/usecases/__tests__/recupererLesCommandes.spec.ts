@@ -15,25 +15,25 @@ describe('RecupererLesCommandes', () => {
     })
 
     describe('exécuter: lorsqu\'on veut récupérer toutes les commandes', () => {
-        it('renvoie les commandes s\'il en existe au moins une', () => {
+        it('renvoie les commandes s\'il en existe au moins une', async () => {
             // Given
             const commande = uneCommandeAvecDeuxPommesEtTroisPoires()
             commandePort.récupérerToutesLesCommandes = jest.fn().mockReturnValue([commande])
 
             // When
-            const toutesLesCommandes = recupererLesCommandes.exécuter()
+            const toutesLesCommandes = await recupererLesCommandes.exécuter()
 
             // Then
             expect(toutesLesCommandes).toEqual([commande])
         })
 
-        it('lève une erreur s\'il n\'y a aucune commande', () => {
+        it('lève une erreur s\'il n\'y a aucune commande', async () => {
             // Given
             commandePort.récupérerToutesLesCommandes = jest.fn().mockReturnValue([])
 
             try {
                 // When
-                recupererLesCommandes.exécuter()
+                await recupererLesCommandes.exécuter()
                 assert.fail()
             } catch (e) {
                 // Then

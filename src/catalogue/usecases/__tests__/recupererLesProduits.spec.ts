@@ -1,5 +1,4 @@
 import Produit from "../../domain/entities/produit";
-import ProduitAdapter from "../../infrastructure/adapter/ProduitAdapter";
 import {produitPortTest} from "./helper/PortsTests";
 import ProduitPort from "../../domain/ports/produitPort";
 import RecupererLesProduits from "../recupererLesProduits/recupererLesProduits";
@@ -43,12 +42,12 @@ describe('recupererLesProduits', () => {
         produitPort.récupérerLesProduits = jest.fn().mockReturnValue(produitSauvegardés)
       })
 
-      it(' tous les produits', () => {
+      it(' tous les produits', async () => {
         // given
         produitPort.récupérerLesProduits = jest.fn().mockReturnValue(produitSauvegardés)
 
         // when
-        const produitRetourné = new RecupererLesProduits(produitPort as ProduitAdapter).exécuter();
+        const produitRetourné = await new RecupererLesProduits(produitPort).exécuter();
 
         // then
         const produitsAttendus = [{
