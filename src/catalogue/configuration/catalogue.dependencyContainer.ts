@@ -25,18 +25,12 @@ export default function createCatalogueDependencyContainer(): CatalogueDependenc
   const typeORMClient = new TypeORMClient(createPostgresConnection())
   const produitPort = new DatabaseProduitAdapter(typeORMClient)
   const commandePort = new DatabaseCommandeAdapter(typeORMClient)
-  const recupererLeProduit = new RecupererLeProduit(produitPort)
-  const recupererLesProduits = new RecupererLesProduits(produitPort)
-  const creerUnProduit = new CreerUnProduit(produitPort, idGenerator)
-  const recupererLaCommande = new RecupererLaCommande(commandePort)
-  const recupererLesCommandes = new RecupererLesCommandes(commandePort)
-  const creerUneCommande = new CreerUneCommande(commandePort, produitPort, idGenerator)
   return {
-    recupererLeProduit,
-    recupererLesProduits,
-    creerUnProduit,
-    recupererLaCommande,
-    recupererLesCommandes,
-    creerUneCommande
+    recupererLeProduit : new RecupererLeProduit(produitPort),
+    recupererLesProduits : new RecupererLesProduits(produitPort),
+    creerUnProduit : new CreerUnProduit(produitPort, idGenerator),
+    recupererLaCommande : new RecupererLaCommande(commandePort),
+    recupererLesCommandes : new RecupererLesCommandes(commandePort),
+    creerUneCommande : new CreerUneCommande(commandePort, produitPort, idGenerator)
   }
 }
