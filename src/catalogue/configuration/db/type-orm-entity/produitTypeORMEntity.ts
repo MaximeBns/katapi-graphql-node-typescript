@@ -26,7 +26,7 @@ export default class ProduitTypeORMEntity {
 		return new ProduitTypeORMEntity(produit.id, produit.nom, produit.prix, produit.poids)
 	}
 
-	get toProduit(): Produit {
+	toProduit(): Produit {
 		return {
 			id: this.id,
 			nom: this.nom,

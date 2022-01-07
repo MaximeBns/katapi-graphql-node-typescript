@@ -19,16 +19,17 @@ export default class DatabaseProduitAdapter implements ProduitPort {
   }
 
   async récupérerLesProduits(filtre?: FiltreProduit): Promise<Produit[]> {
+    // todo : se servir de typeorm directement pour trier les produits
     const produitsDb = await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).find())
     if (filtre) {
-      return this.filtrerProduits(produitsDb.map(p => p.toProduit), filtre)
+      return this.filtrerProduits(produitsDb.map(p => p.toProduit()), filtre)
     }
-    return produitsDb.map(p => p.toProduit)
+    return produitsDb.map(p => p.toProduit())
   }
 
   async récupérerLeProduit(id: string): Promise<Produit> {
     const produitDB = await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).findOne({id}))
-    return produitDB.toProduit
+    return produitDB.toProduit()
   }
 
   private filtrerProduits(produitsNonFiltres: Array<Produit>, filter: FiltreProduit): Array<Produit> {

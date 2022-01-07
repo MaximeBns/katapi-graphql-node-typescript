@@ -1,5 +1,5 @@
 import CommandePort from "../../domain/ports/commandePort";
-import Commande from "../../domain/entities/commande/commande";
+import Commande, {CommandeElement} from "../../domain/entities/commande/commande";
 import TypeORMClient from "../../../configuration/database/TypeORMClient";
 import CommandeTypeORMEntity from "../../configuration/db/type-orm-entity/commandeTypeORMEntity";
 import ElementCommandeTypeORMEntity from "../../configuration/db/type-orm-entity/elementCommandeTypeORMEntity";
@@ -15,12 +15,12 @@ export default class DatabaseCommandeAdapter implements CommandePort {
         if (!commandeAvecElementsDeLaBase) {
             throw new CommandeNonTrouvee(id)
         }
-        return await this.mapperCommande(commandeAvecElementsDeLaBase);
+        return await this.récupérerLaCommandeEnBase(commandeAvecElementsDeLaBase);
     }
 
     async récupérerToutesLesCommandes(): Promise<Commande[]> {
         const commandesDeLaBase =  await this.typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).find({relations:['elements']}))
-        return await Promise.all(commandesDeLaBase.map(async commande => this.mapperCommande(commande)))
+        return await Promise.all(commandesDeLaBase.map(async commande => this.récupérerLaCommandeEnBase(commande)))
     }
 
     async sauvegarderCommande(commande: Commande): Promise<void> {
@@ -31,19 +31,15 @@ export default class DatabaseCommandeAdapter implements CommandePort {
         await this.typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).save(commandeASauvegarder))
     }
 
-    private async mapperCommande(commandeAvecElementsDeLaBase: CommandeTypeORMEntity) {
+    private async récupérerLaCommandeEnBase(commandeAvecElementsDeLaBase: CommandeTypeORMEntity): Promise<Commande> {
         const commande = Commande.init(commandeAvecElementsDeLaBase.id)
         const elements = await Promise.all(commandeAvecElementsDeLaBase.elements.map(async element => this.récupérerElement(element)))
         elements.forEach(element => commande.ajouterElement(element.id, element.produit, element.quantité))
         return commande
     }
 
-    private async récupérerElement(elementDeLaBase: ElementCommandeTypeORMEntity) {
+    private async récupérerElement(elementDeLaBase: ElementCommandeTypeORMEntity): Promise<CommandeElement> {
         const produitDeLaBase =  await this.typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).findOne({id: elementDeLaBase.produitId}))
-        return {
-            id: elementDeLaBase.id,
-            produit: produitDeLaBase.toProduit,
-            quantité: elementDeLaBase.quantité
-        }
+        return new CommandeElement(elementDeLaBase.id, produitDeLaBase.toProduit(), elementDeLaBase.quantité)
     }
 }
