@@ -3,8 +3,8 @@ import CreerUneCommande, {CommandeElementDepuisRequete} from "../creerUneCommand
 import ProduitPort from "../../domain/ports/produitPort";
 import {commandePortTest, idGeneratorTest, produitPortTest} from "./helper/PortsTests";
 import Produit from "../../domain/entities/produit";
-import {uneCommandeAvecDeuxPommesEtTroisPoires} from "../../../configuration/__tests__/utils";
 import {IdGenerator} from "../../domain/ports/idGenerator";
+import {uneCommandeAvecDeuxPommesEtTroisPoires} from "../../configuration/__tests__/utils";
 
 describe('creerUneCommande', () => {
     let commandePort: CommandePort

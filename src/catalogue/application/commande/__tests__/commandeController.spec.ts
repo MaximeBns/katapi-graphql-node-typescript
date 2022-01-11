@@ -1,10 +1,11 @@
-import {createFakeServerDependenciesContainer} from "../../../../configuration/__tests__/serverDependencyContainer";
 import {CatalogueDependencyContainer} from "../../../configuration/catalogue.dependencyContainer";
 import Resolver from "../../resolverMap";
 import fs from "fs";
 import {makeExecutableSchema} from "@graphql-tools/schema";
 import {graphql, GraphQLSchema} from "graphql";
-import {uneCommandeAvecDeuxPommesEtTroisPoires} from "../../../../configuration/__tests__/utils";
+import {createFakeServerDependenciesContainer} from "../../../../configuration/__tests__/fakeServerDependencyContainer";
+import {uneCommandeAvecDeuxPommesEtTroisPoires} from "../../../write/configuration/__tests__/utils";
+import {uneCommandeInformationsAvecDeuxPommesEtTroisPoires} from "../../../read/configuration/__tests__/utils";
 
 
 describe('CommandeController', () => {
@@ -14,9 +15,9 @@ describe('CommandeController', () => {
     beforeEach(() => {
         catalogueDependencyContainer = createFakeServerDependenciesContainer().catalogueDependencyContainer
         catalogueDependencyContainer.recupererLesCommandes.exécuter = jest.fn()
-            .mockReturnValue([uneCommandeAvecDeuxPommesEtTroisPoires()])
+            .mockReturnValue([uneCommandeInformationsAvecDeuxPommesEtTroisPoires()])
         catalogueDependencyContainer.recupererLaCommande.exécuter = jest.fn()
-            .mockReturnValue(uneCommandeAvecDeuxPommesEtTroisPoires())
+            .mockReturnValue(uneCommandeInformationsAvecDeuxPommesEtTroisPoires())
         catalogueDependencyContainer.creerUneCommande.exécuter = jest.fn()
             .mockReturnValue(uneCommandeAvecDeuxPommesEtTroisPoires())
         const resolvers = new Resolver(catalogueDependencyContainer).getResolvers()

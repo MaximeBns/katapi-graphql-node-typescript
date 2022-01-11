@@ -1,7 +1,9 @@
-import Commande, {CommandeElement} from "../../domain/entities/commande/commande";
 import {CommandeOutputApi, ElementCommandeOutputApi} from "../commande/CommandeOutputApi";
-import Produit from "../../domain/entities/produit";
+import Commande, {CommandeElement} from "../../write/domain/entities/commande/commande";
+import Produit from "../../write/domain/entities/produit";
 
+
+// WRITE
 export function toCommandeOutputApi(commande: Commande): CommandeOutputApi {
     return {
         __typename: 'Commande',

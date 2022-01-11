@@ -1,9 +1,9 @@
 import CommandePort from "../../domain/ports/commandePort";
 import {commandePortTest} from "./helper/PortsTests";
-import {uneCommandeAvecDeuxPommesEtTroisPoires} from "../../../configuration/__tests__/utils";
 import RecupererLaCommande from "../recupererLaCommande";
 import {CommandeNonTrouvee} from "../../domain/errors/CommandeNonTrouvee";
 import assert from "assert";
+import {uneCommandeInformationsAvecDeuxPommesEtTroisPoires} from "../../configuration/__tests__/utils";
 
 describe('recupererLaCommande', () => {
     let commandePort: CommandePort
@@ -17,13 +17,13 @@ describe('recupererLaCommande', () => {
     describe('exécuter : quand on récupère la commande par id', () => {
         it('renvoie la commande lorsqu\'elle existe', async () => {
             // Given
-            commandePort.récupérerCommande = jest.fn().mockReturnValue(uneCommandeAvecDeuxPommesEtTroisPoires())
+            commandePort.récupérerCommande = jest.fn().mockReturnValue(uneCommandeInformationsAvecDeuxPommesEtTroisPoires())
 
             // When
             const commandeRecuperee = await recupererLaCommande.exécuter('id')
 
             // Then
-            expect(commandeRecuperee).toEqual(uneCommandeAvecDeuxPommesEtTroisPoires())
+            expect(commandeRecuperee).toEqual(uneCommandeInformationsAvecDeuxPommesEtTroisPoires())
         })
 
         it('lève une erreur lorsque la commande n\'existe pas', async () => {

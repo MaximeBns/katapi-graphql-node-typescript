@@ -9,7 +9,7 @@ export function unePoire(): ProduitInformations {
     return {id:'2', nom: 'Poire', prix: 3, poids: 0.25}
 }
 
-export function uneCommandeAvecDeuxPommesEtTroisPoires() : CommandeInformations {
+export function uneCommandeInformationsAvecDeuxPommesEtTroisPoires() : CommandeInformations {
     const commande = CommandeInformations.init('id')
     commande.ajouterElement('id-el-1', unePomme(), 2)
     commande.ajouterElement('id-el-2', unePoire(), 3)

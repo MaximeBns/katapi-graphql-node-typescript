@@ -5,7 +5,7 @@ import {createPostgresConnection} from "../../../../../configuration/database/cr
 import ProduitTypeORMEntity from "../../../../configuration/db/type-orm-entity/produitTypeORMEntity";
 import CommandeTypeORMEntity from "../../../../configuration/db/type-orm-entity/commandeTypeORMEntity";
 import TypeORMClient from "../../../../../configuration/database/TypeORMClient";
-import {uneCommandeAvecDeuxPommesEtTroisPoires, unePoire, unePomme} from "../../../configuration/__tests__/utils";
+import {uneCommandeInformationsAvecDeuxPommesEtTroisPoires, unePoire, unePomme} from "../../../configuration/__tests__/utils";
 
 describe('Read | DatabaseCommandeLoader',  () => {
     const typeORMClient = new TypeORMClient(createPostgresConnection())
@@ -52,7 +52,7 @@ describe('Read | DatabaseCommandeLoader',  () => {
             const commande = await loader.récupérerCommande('id')
 
             // Then
-            expect(commande).toEqual(uneCommandeAvecDeuxPommesEtTroisPoires())
+            expect(commande).toEqual(uneCommandeInformationsAvecDeuxPommesEtTroisPoires())
         })
 
         it('récupérerCommande lève une erreur lorsque la commande n\'existe pas', async () => {
@@ -120,7 +120,7 @@ describe('Read | DatabaseCommandeLoader',  () => {
             const commandes = await loader.récupérerToutesLesCommandes()
 
             // Then
-            const commande1 = uneCommandeAvecDeuxPommesEtTroisPoires()
+            const commande1 = uneCommandeInformationsAvecDeuxPommesEtTroisPoires()
             const commande2 = {
                 ...commande1,
                 id: 'id2',

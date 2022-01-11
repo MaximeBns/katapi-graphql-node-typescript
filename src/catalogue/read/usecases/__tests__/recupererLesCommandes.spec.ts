@@ -1,9 +1,9 @@
 import CommandePort from "../../domain/ports/commandePort";
 import {commandePortTest} from "./helper/PortsTests";
 import RecupererLesCommandes from "../recupererLesCommandes";
-import {uneCommandeAvecDeuxPommesEtTroisPoires} from "../../../configuration/__tests__/utils";
 import {PasDeCommande} from "../../domain/errors/PasDeCommande";
 import assert from "assert";
+import {uneCommandeInformationsAvecDeuxPommesEtTroisPoires} from "../../configuration/__tests__/utils";
 
 describe('RecupererLesCommandes', () => {
     let commandePort: CommandePort
@@ -17,7 +17,7 @@ describe('RecupererLesCommandes', () => {
     describe('exécuter: lorsqu\'on veut récupérer toutes les commandes', () => {
         it('renvoie les commandes s\'il en existe au moins une', async () => {
             // Given
-            const commande = uneCommandeAvecDeuxPommesEtTroisPoires()
+            const commande = uneCommandeInformationsAvecDeuxPommesEtTroisPoires()
             commandePort.récupérerToutesLesCommandes = jest.fn().mockReturnValue([commande])
 
             // When
