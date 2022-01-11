@@ -8,8 +8,8 @@ import {
 } from "../../usecases/recupererLesProduits/filtreProduit";
 import {AucunProduitTrouve} from "../../domain/errors/AucunProduitTrouve";
 import http2 from "http2";
-import TypeORMClient from "../../../configuration/database/TypeORMClient";
-import ProduitTypeORMEntity from "../../configuration/db/type-orm-entity/produitTypeORMEntity";
+import TypeORMClient from "../../../../configuration/database/TypeORMClient";
+import ProduitTypeORMEntity from "../../../configuration/db/type-orm-entity/produitTypeORMEntity";
 
 export default class DatabaseProduitAdapter implements ProduitPort {
   constructor(private typeORMClient: TypeORMClient) {}

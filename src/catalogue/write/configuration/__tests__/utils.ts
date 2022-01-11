@@ -1,3 +1,5 @@
+import Produit from "../../domain/entities/produit";
+import Commande from "../../domain/entities/commande/commande";
 
 export function unePomme() : Produit {
     return {id:'1', nom: 'Pomme', prix: 2, poids: 0.2}
