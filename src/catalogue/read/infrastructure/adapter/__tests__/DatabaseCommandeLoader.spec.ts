@@ -9,7 +9,7 @@ import {uneCommandeAvecDeuxPommesEtTroisPoires, unePoire, unePomme} from "../../
 
 describe('Read | DatabaseCommandeLoader',  () => {
     const typeORMClient = new TypeORMClient(createPostgresConnection())
-    const adapter = new DatabaseCommandeLoader(typeORMClient)
+    const loader = new DatabaseCommandeLoader(typeORMClient)
 
     beforeEach(async () => {
         const produitsDisponibles = [unePomme(), unePoire()].map(fruit => ProduitTypeORMEntity.fromProduit(fruit))
@@ -49,7 +49,7 @@ describe('Read | DatabaseCommandeLoader',  () => {
             await typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).save(commandeEnBase))
 
             // When
-            const commande = await adapter.récupérerCommande('id')
+            const commande = await loader.récupérerCommande('id')
 
             // Then
             expect(commande).toEqual(uneCommandeAvecDeuxPommesEtTroisPoires())
@@ -58,7 +58,7 @@ describe('Read | DatabaseCommandeLoader',  () => {
         it('récupérerCommande lève une erreur lorsque la commande n\'existe pas', async () => {
             // When
             try {
-                await adapter.récupérerCommande('id')
+                await loader.récupérerCommande('id')
                 assert.fail()
             } catch (e) {
                 // Then
@@ -117,7 +117,7 @@ describe('Read | DatabaseCommandeLoader',  () => {
             await typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).save([commandeEnBase1, commandeEnBase2]))
 
             // When
-            const commandes = await adapter.récupérerToutesLesCommandes()
+            const commandes = await loader.récupérerToutesLesCommandes()
 
             // Then
             const commande1 = uneCommandeAvecDeuxPommesEtTroisPoires()

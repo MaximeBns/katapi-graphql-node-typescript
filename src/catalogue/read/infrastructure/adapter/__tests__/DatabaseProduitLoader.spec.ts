@@ -1,35 +1,16 @@
-import {createPostgresConnection} from "../../../../configuration/database/createPostgresConnection";
-import DatabaseProduitAdapter from "../DatabaseProduitAdapter";
+import DatabaseProduitLoader from "../DatabaseProduitLoader";
 import ProduitInformations from "../../../domain/entities/produitInformations";
-import ProduitTypeORMEntity from "../../../configuration/db/type-orm-entity/produitTypeORMEntity";
-import TypeORMClient from "../../../../configuration/database/TypeORMClient";
 import {FilteredProductFilled, FiltreProduit, OrderType} from "../../../usecases/recupererLesProduits/filtreProduit";
+import {createPostgresConnection} from "../../../../../configuration/database/createPostgresConnection";
+import ProduitTypeORMEntity from "../../../../configuration/db/type-orm-entity/produitTypeORMEntity";
+import TypeORMClient from "../../../../../configuration/database/TypeORMClient";
 
-describe('DatabaseProduitAdapter',  () => {
+describe('Read | DatabaseProduitLoader',  () => {
     const typeORMClient = new TypeORMClient(createPostgresConnection())
-    const adapter = new DatabaseProduitAdapter(typeORMClient)
+    const loader = new DatabaseProduitLoader(typeORMClient)
 
     afterEach(async () => {
         await typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).delete({}))
-    })
-
-    describe('quand sauvegarderProduit est appelée', () => {
-        it("sauvegarde le produit en base", async () => {
-            // given
-            const pasteque: ProduitInformations = {
-                id: "pastequeId",
-                nom: "Pastèque",
-                prix: 22,
-                poids: 5,
-            }
-
-            // when
-            await adapter.sauvegarderProduit(pasteque)
-
-            // then
-            const pastequeEnBase = await typeORMClient.executeQuery<ProduitTypeORMEntity>(connection => connection.getRepository(ProduitTypeORMEntity).findOne({id: "pastequeId"}))
-            expect(pastequeEnBase).toEqual(pasteque)
-        });
     })
 
     describe('quand récupérerLeProduit est appelée', () => {
@@ -39,7 +20,7 @@ describe('DatabaseProduitAdapter',  () => {
             await typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).save(pomme_db))
 
             // When
-            const pomme_récupérée = await adapter.récupérerLeProduit('idPomme')
+            const pomme_récupérée = await loader.récupérerLeProduit('idPomme')
 
             // Then
             const expected_pomme = ProduitInformations.creer('idPomme','Pomme',20,1)
@@ -82,7 +63,7 @@ describe('DatabaseProduitAdapter',  () => {
 
         it('renvoie la liste des produits en base s\'il n\'y a pas de filtre', async () => {
             // When
-            const produits_récupérés = await adapter.récupérerLesProduits()
+            const produits_récupérés = await loader.récupérerLesProduits()
 
             // Then
             expect(produits_récupérés).toEqual(produits)
@@ -124,7 +105,7 @@ describe('DatabaseProduitAdapter',  () => {
                                 }];
 
                                 // when
-                                const produitRetourné = await adapter.récupérerLesProduits(filtre)
+                                const produitRetourné = await loader.récupérerLesProduits(filtre)
 
                                 // then
                                 expect(produitRetourné).toEqual(produitsAttendus);
@@ -160,7 +141,7 @@ describe('DatabaseProduitAdapter',  () => {
                                 }];
 
                                 //When
-                                const produitRetourné = await adapter.récupérerLesProduits(filtre)
+                                const produitRetourné = await loader.récupérerLesProduits(filtre)
 
                                 //Then
                                 expect(produitRetourné).toEqual(produitsAttendus);
@@ -176,7 +157,7 @@ describe('DatabaseProduitAdapter',  () => {
                                     order: OrderType.Asc,
                                 }
                                 //When
-                                const produitRetourné = await adapter.récupérerLesProduits(filtre)
+                                const produitRetourné = await loader.récupérerLesProduits(filtre)
 
                                 //Then
                                 const produitsAttendus = [{
@@ -240,7 +221,7 @@ describe('DatabaseProduitAdapter',  () => {
                                 }].reverse();
 
                                 // when
-                                const produitRetourné = await adapter.récupérerLesProduits(filtre)
+                                const produitRetourné = await loader.récupérerLesProduits(filtre)
 
                                 // then
                                 expect(produitRetourné).toEqual(produitsAttendus);
@@ -280,7 +261,7 @@ describe('DatabaseProduitAdapter',  () => {
 
 
                                 //When
-                                const produitRetourné = await adapter.récupérerLesProduits(filtre)
+                                const produitRetourné = await loader.récupérerLesProduits(filtre)
 
                                 //Then
                                 expect(produitRetourné).toEqual(produitsAttendus);
@@ -319,7 +300,7 @@ describe('DatabaseProduitAdapter',  () => {
                                 }].reverse();
 
                                 //When
-                                const produitRetourné = await adapter.récupérerLesProduits(filtre)
+                                const produitRetourné = await loader.récupérerLesProduits(filtre)
 
                                 //Then
 
@@ -342,7 +323,7 @@ describe('DatabaseProduitAdapter',  () => {
                 }
 
                 // when
-                const produitRetourné = await adapter.récupérerLesProduits(filter)
+                const produitRetourné = await loader.récupérerLesProduits(filter)
 
                 // then
                 const produitsAttendus = [{

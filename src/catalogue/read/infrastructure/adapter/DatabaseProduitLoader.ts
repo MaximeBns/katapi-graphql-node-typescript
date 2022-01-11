@@ -8,28 +8,24 @@ import {
 } from "../../usecases/recupererLesProduits/filtreProduit";
 import {AucunProduitTrouve} from "../../domain/errors/AucunProduitTrouve";
 import http2 from "http2";
-import TypeORMClient from "../../../configuration/database/TypeORMClient";
-import ProduitTypeORMEntity from "../../configuration/db/type-orm-entity/produitTypeORMEntity";
+import TypeORMClient from "../../../../configuration/database/TypeORMClient";
+import ProduitTypeORMEntity from "../../../configuration/db/type-orm-entity/produitTypeORMEntity";
 
-export default class DatabaseProduitAdapter implements ProduitPort {
+export default class DatabaseProduitLoader implements ProduitPort {
   constructor(private typeORMClient: TypeORMClient) {}
-
-  async sauvegarderProduit(produit: ProduitInformations): Promise<void> {
-    await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).save(ProduitTypeORMEntity.fromProduit(produit)))
-  }
 
   async récupérerLesProduits(filtre?: FiltreProduit): Promise<ProduitInformations[]> {
     // todo : se servir de typeorm directement pour trier les produits
     const produitsDb = await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).find())
     if (filtre) {
-      return this.filtrerProduits(produitsDb.map(p => p.toProduit()), filtre)
+      return this.filtrerProduits(produitsDb.map(p => p.toProduitInformations()), filtre)
     }
-    return produitsDb.map(p => p.toProduit())
+    return produitsDb.map(p => p.toProduitInformations())
   }
 
   async récupérerLeProduit(id: string): Promise<ProduitInformations> {
     const produitDB = await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).findOne({id}))
-    return produitDB.toProduit()
+    return produitDB.toProduitInformations()
   }
 
   private filtrerProduits(produitsNonFiltres: Array<ProduitInformations>, filter: FiltreProduit): Array<ProduitInformations> {

@@ -23,14 +23,6 @@ export default class DatabaseCommandeLoader implements CommandePort {
         return await Promise.all(commandesDeLaBase.map(async commande => this.récupérerLaCommandeEnBase(commande)))
     }
 
-    async sauvegarderCommande(commande: CommandeInformations): Promise<void> {
-        const elementsASauvegarder = commande.elements.map(element => {
-            return new ElementCommandeTypeORMEntity(element.id, commande.id, element.produitId, element.quantité)
-        })
-        const commandeASauvegarder = CommandeTypeORMEntity.fromCommandeAvecElements(commande, elementsASauvegarder)
-        await this.typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).save(commandeASauvegarder))
-    }
-
     private async récupérerLaCommandeEnBase(commandeAvecElementsDeLaBase: CommandeTypeORMEntity): Promise<CommandeInformations> {
         const commande = CommandeInformations.init(commandeAvecElementsDeLaBase.id)
         const elements = await Promise.all(commandeAvecElementsDeLaBase.elements.map(async element => this.récupérerElement(element)))

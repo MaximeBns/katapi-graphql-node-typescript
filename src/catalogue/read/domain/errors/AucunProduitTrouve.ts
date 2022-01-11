@@ -1,6 +1,6 @@
-import {Erreur} from "../../../shared/domain/error/erreur";
+import {Erreur} from "../../../../shared/domain/error/erreur";
 
-export class AucunProduitTrouve implements Erreur{
+export class AucunProduitTrouve implements Erreur {
   readonly code: number;
   readonly message: string;
 
