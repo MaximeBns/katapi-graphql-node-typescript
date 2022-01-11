@@ -1,5 +1,3 @@
-import Commande from "../../catalogue/domain/entities/commande/commande";
-import Produit from "../../catalogue/domain/entities/produit";
 
 export function unePomme() : Produit {
     return {id:'1', nom: 'Pomme', prix: 2, poids: 0.2}

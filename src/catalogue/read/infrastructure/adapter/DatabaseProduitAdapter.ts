@@ -1,5 +1,5 @@
 import ProduitPort from "../../domain/ports/produitPort";
-import Produit from "../../domain/entities/produit";
+import ProduitInformations from "../../domain/entities/produitInformations";
 import {
   CompareSign,
   FilteredProductFilled,
@@ -14,11 +14,11 @@ import ProduitTypeORMEntity from "../../configuration/db/type-orm-entity/produit
 export default class DatabaseProduitAdapter implements ProduitPort {
   constructor(private typeORMClient: TypeORMClient) {}
 
-  async sauvegarderProduit(produit: Produit): Promise<void> {
+  async sauvegarderProduit(produit: ProduitInformations): Promise<void> {
     await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).save(ProduitTypeORMEntity.fromProduit(produit)))
   }
 
-  async récupérerLesProduits(filtre?: FiltreProduit): Promise<Produit[]> {
+  async récupérerLesProduits(filtre?: FiltreProduit): Promise<ProduitInformations[]> {
     // todo : se servir de typeorm directement pour trier les produits
     const produitsDb = await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).find())
     if (filtre) {
@@ -27,13 +27,13 @@ export default class DatabaseProduitAdapter implements ProduitPort {
     return produitsDb.map(p => p.toProduit())
   }
 
-  async récupérerLeProduit(id: string): Promise<Produit> {
+  async récupérerLeProduit(id: string): Promise<ProduitInformations> {
     const produitDB = await this.typeORMClient.executeQuery(db => db.getRepository(ProduitTypeORMEntity).findOne({id}))
     return produitDB.toProduit()
   }
 
-  private filtrerProduits(produitsNonFiltres: Array<Produit>, filter: FiltreProduit): Array<Produit> {
-    let produitsFiltré: Array<Produit> = produitsNonFiltres
+  private filtrerProduits(produitsNonFiltres: Array<ProduitInformations>, filter: FiltreProduit): Array<ProduitInformations> {
+    let produitsFiltré: Array<ProduitInformations> = produitsNonFiltres
     switch (filter.by) {
       case FilteredProductFilled.Name:
 

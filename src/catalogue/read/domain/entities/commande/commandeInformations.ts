@@ -1,4 +1,4 @@
-import Produit from "../produit";
+import ProduitInformations from "../produitInformations";
 
 export enum StatutCommande {
     EN_COURS = 'EN_COURS',
@@ -7,7 +7,7 @@ export enum StatutCommande {
 }
 
 export class CommandeElement {
-    constructor(readonly id: string, readonly produit: Produit, readonly quantité: number) {}
+    constructor(readonly id: string, readonly produit: ProduitInformations, readonly quantité: number) {}
 
     get produitId(): string {
         return this.produit.id
@@ -15,7 +15,7 @@ export class CommandeElement {
 }
 
 
-export default class Commande {
+export default class CommandeInformations {
     readonly id: string;
     readonly statut: StatutCommande;
     readonly elements: CommandeElement[];
@@ -26,11 +26,11 @@ export default class Commande {
         this.elements= []
     }
 
-    static init(id: string): Commande {
-        return new Commande(id)
+    static init(id: string): CommandeInformations {
+        return new CommandeInformations(id)
     }
 
-    ajouterElement(id: string, produit: Produit, quantité: number): void {
+    ajouterElement(id: string, produit: ProduitInformations, quantité: number): void {
         this.elements.push(new CommandeElement(id, produit, quantité))
     }
 

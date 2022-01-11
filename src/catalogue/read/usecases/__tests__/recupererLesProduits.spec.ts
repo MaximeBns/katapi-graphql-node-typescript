@@ -1,4 +1,4 @@
-import Produit from "../../domain/entities/produit";
+import ProduitInformations from "../../domain/entities/produitInformations";
 import {produitPortTest} from "./helper/PortsTests";
 import ProduitPort from "../../domain/ports/produitPort";
 import RecupererLesProduits from "../recupererLesProduits/recupererLesProduits";
@@ -7,7 +7,7 @@ describe('recupererLesProduits', () => {
   describe('exécuter : quand on récupère les produits', () => {
     describe('alors retourne ', () => {
       let produitPort: ProduitPort
-      let produitSauvegardés: Array<Produit>
+      let produitSauvegardés: Array<ProduitInformations>
 
       beforeEach(() => {
         produitPort = produitPortTest;

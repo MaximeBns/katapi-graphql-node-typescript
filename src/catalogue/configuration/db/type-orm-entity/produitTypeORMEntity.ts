@@ -1,5 +1,6 @@
 import {Column, Entity, PrimaryColumn} from "typeorm";
-import Produit from "../../../domain/entities/produit";
+import Produit from "../../../write/domain/entities/produit";
+import ProduitInformations from "../../../read/domain/entities/produitInformations";
 
 @Entity({name: 'produits'})
 export default class ProduitTypeORMEntity {
@@ -26,7 +27,7 @@ export default class ProduitTypeORMEntity {
 		return new ProduitTypeORMEntity(produit.id, produit.nom, produit.prix, produit.poids)
 	}
 
-	toProduit(): Produit {
+	toProduitInformations(): ProduitInformations {
 		return {
 			id: this.id,
 			nom: this.nom,

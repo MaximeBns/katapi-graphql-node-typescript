@@ -1,6 +1,6 @@
 import {Column, Entity, OneToMany, PrimaryColumn} from "typeorm";
 import ElementCommandeTypeORMEntity from "./elementCommandeTypeORMEntity";
-import Commande from "../../../domain/entities/commande/commande";
+import Commande from "../../../write/domain/entities/commande/commande";
 
 @Entity({name: 'commandes'})
 export default class CommandeTypeORMEntity {

@@ -1,5 +1,5 @@
 import ProduitPort from "../../domain/ports/produitPort";
-import Produit from "../../domain/entities/produit";
+import ProduitInformations from "../../domain/entities/produitInformations";
 import {CompareSign, FilteredProductFilled, FiltreProduit, OrderType} from "./filtreProduit";
 import {AucunProduitTrouve} from "../../domain/errors/AucunProduitTrouve";
 import * as http2 from "http2";
@@ -9,7 +9,7 @@ export default class RecupererLesProduits {
     this.produitPort = produitPort;        // https://github.com/typestack/typedi/issues/70
   }
 
-  async exécuter(filter?: FiltreProduit): Promise<Produit[]> {
+  async exécuter(filter?: FiltreProduit): Promise<ProduitInformations[]> {
     return await this.produitPort.récupérerLesProduits(filter);
   }
 }

@@ -1,6 +1,6 @@
 import {createPostgresConnection} from "../../../../configuration/database/createPostgresConnection";
 import DatabaseProduitAdapter from "../DatabaseProduitAdapter";
-import Produit from "../../../domain/entities/produit";
+import ProduitInformations from "../../../domain/entities/produitInformations";
 import ProduitTypeORMEntity from "../../../configuration/db/type-orm-entity/produitTypeORMEntity";
 import TypeORMClient from "../../../../configuration/database/TypeORMClient";
 import {FilteredProductFilled, FiltreProduit, OrderType} from "../../../usecases/recupererLesProduits/filtreProduit";
@@ -16,7 +16,7 @@ describe('DatabaseProduitAdapter',  () => {
     describe('quand sauvegarderProduit est appelée', () => {
         it("sauvegarde le produit en base", async () => {
             // given
-            const pasteque: Produit = {
+            const pasteque: ProduitInformations = {
                 id: "pastequeId",
                 nom: "Pastèque",
                 prix: 22,
@@ -42,13 +42,13 @@ describe('DatabaseProduitAdapter',  () => {
             const pomme_récupérée = await adapter.récupérerLeProduit('idPomme')
 
             // Then
-            const expected_pomme = Produit.creer('idPomme','Pomme',20,1)
+            const expected_pomme = ProduitInformations.creer('idPomme','Pomme',20,1)
             expect(pomme_récupérée).toEqual(expected_pomme)
         })
     })
 
     describe('quand récupérerLesProduits est appelée', () => {
-        let produits: Produit[]
+        let produits: ProduitInformations[]
 
         beforeEach(async () => {
             produits = [{

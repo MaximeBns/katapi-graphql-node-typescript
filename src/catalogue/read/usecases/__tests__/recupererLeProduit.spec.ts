@@ -1,4 +1,4 @@
-import Produit from "../../domain/entities/produit";
+import ProduitInformations from "../../domain/entities/produitInformations";
 import RecupererLeProduit from "../recupererLeProduit";
 import {produitPortTest} from "./helper/PortsTests";
 
@@ -8,7 +8,7 @@ describe('recupererLeProduit', () => {
             // given
             const produitPort = produitPortTest;
             const id = "1"
-            const produitSauvegardé: Produit = {
+            const produitSauvegardé: ProduitInformations = {
                 id: "1",
                 nom: "Pomme",
                 poids: 200,

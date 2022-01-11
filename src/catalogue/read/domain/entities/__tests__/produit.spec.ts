@@ -1,11 +1,11 @@
-import Produit from "../produit";
+import ProduitInformations from "../produitInformations";
 jest.spyOn(global.Math, 'random').mockReturnValue(0.1);
 
 describe('produit', () => {
     describe('creer : quand on créé un produit', () => {
         it('alors retourne un objet Produit', () => {
             // given
-            const produitAttendu: Partial<Produit> = {
+            const produitAttendu: Partial<ProduitInformations> = {
                 id:"1",
                 nom: "Pastèque",
                 prix: 20,
@@ -13,7 +13,7 @@ describe('produit', () => {
             }
 
             // when
-            const produitCréé = Produit.creer("1","Pastèque", 20, 5);
+            const produitCréé = ProduitInformations.creer("1","Pastèque", 20, 5);
 
             // then
             expect(produitCréé).toEqual(produitAttendu);
@@ -26,7 +26,7 @@ describe('produit', () => {
             const nomTropCourt = 'Le';
 
            // when then
-           expect(() => Produit.creer("1", nomTropCourt, 20, 5)).toThrow(new Error('Le nom du produit est trop court'));
+           expect(() => ProduitInformations.creer("1", nomTropCourt, 20, 5)).toThrow(new Error('Le nom du produit est trop court'));
        });
     });
 });

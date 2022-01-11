@@ -1,7 +1,7 @@
-import Commande from "../entities/commande/commande";
+import CommandeInformations from "../entities/commande/commandeInformations";
 
 export default interface CommandePort {
-    sauvegarderCommande(commande: Commande) : Promise<void>;
-    récupérerCommande(id: string): Promise<Commande>;
-    récupérerToutesLesCommandes(): Promise<Commande[]>;
+    sauvegarderCommande(commande: CommandeInformations) : Promise<void>;
+    récupérerCommande(id: string): Promise<CommandeInformations>;
+    récupérerToutesLesCommandes(): Promise<CommandeInformations[]>;
 }

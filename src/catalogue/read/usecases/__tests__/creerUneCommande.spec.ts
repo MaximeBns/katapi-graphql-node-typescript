@@ -2,7 +2,7 @@ import CommandePort from "../../domain/ports/commandePort";
 import CreerUneCommande, {CommandeElementDepuisRequete} from "../creerUneCommande";
 import ProduitPort from "../../domain/ports/produitPort";
 import {commandePortTest, idGeneratorTest, produitPortTest} from "./helper/PortsTests";
-import Produit from "../../domain/entities/produit";
+import ProduitInformations from "../../domain/entities/produitInformations";
 import {uneCommandeAvecDeuxPommesEtTroisPoires} from "../../../configuration/__tests__/utils";
 import {IdGenerator} from "../../domain/ports/idGenerator";
 
@@ -25,8 +25,8 @@ describe('creerUneCommande', () => {
             {idProduit: '1', quantite: 2},
             {idProduit: '2', quantite: 3}
         ]
-        const pomme: Produit = {id:'1', nom: 'Pomme', prix: 2, poids: 0.2}
-        const poire: Produit = {id:'2', nom: 'Poire', prix: 3, poids: 0.25}
+        const pomme: ProduitInformations = {id:'1', nom: 'Pomme', prix: 2, poids: 0.2}
+        const poire: ProduitInformations = {id:'2', nom: 'Poire', prix: 3, poids: 0.25}
         produitPort.récupérerLeProduit = jest.fn()
             .mockResolvedValueOnce(pomme)
             .mockResolvedValue(poire)
