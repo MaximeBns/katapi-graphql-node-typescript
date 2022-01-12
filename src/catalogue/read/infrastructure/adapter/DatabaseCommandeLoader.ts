@@ -1,5 +1,5 @@
 import CommandePort from "../../domain/ports/commandePort";
-import CommandeInformations, {CommandeElement} from "../../domain/entities/commande/commandeInformations";
+import CommandeInformations, {CommandeElementInformations} from "../../domain/entities/commande/commandeInformations";
 import {CommandeNonTrouvee} from "../../domain/errors/CommandeNonTrouvee";
 import TypeORMClient from "../../../../configuration/database/TypeORMClient";
 import CommandeTypeORMEntity from "../../../configuration/db/type-orm-entity/commandeTypeORMEntity";
@@ -30,8 +30,8 @@ export default class DatabaseCommandeLoader implements CommandePort {
         return commande
     }
 
-    private async récupérerElement(elementDeLaBase: ElementCommandeTypeORMEntity): Promise<CommandeElement> {
+    private async récupérerElement(elementDeLaBase: ElementCommandeTypeORMEntity): Promise<CommandeElementInformations> {
         const produitDeLaBase =  await this.typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).findOne({id: elementDeLaBase.produitId}))
-        return new CommandeElement(elementDeLaBase.id, produitDeLaBase.toProduitInformations(), elementDeLaBase.quantité)
+        return new CommandeElementInformations(elementDeLaBase.id, produitDeLaBase.toProduitInformations(), elementDeLaBase.quantité)
     }
 }

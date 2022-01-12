@@ -1,27 +1,27 @@
 import {CommandeOutputApi, ElementCommandeOutputApi} from "../../application/commande/CommandeOutputApi";
-import Commande, {CommandeElement} from "../domain/entities/commande/commande";
-import Produit from "../domain/entities/produit";
+import CommandeInformations, {CommandeElementInformations} from "../domain/entities/commande/commandeInformations";
+import ProduitInformations from "../domain/entities/produitInformations";
 
-export function toCommandeOutputApi(commande: Commande): CommandeOutputApi {
+export function commandeInformationsVersCommandeOutputApi(commande: CommandeInformations): CommandeOutputApi {
     return {
         __typename: 'Commande',
         id: commande.id,
         statut: commande.statut,
-        elements: commande.elements.map(toElementCommandeOuputApi),
+        elements: commande.elements.map(commandeElementInformationsVersElementCommandeOuputApi),
         fraisDePort: commande.fraisDePort,
         montantTotal: commande.montantTotal,
         poids: commande.poids
     }
 }
 
-function toElementCommandeOuputApi(element: CommandeElement): ElementCommandeOutputApi {
+function commandeElementInformationsVersElementCommandeOuputApi(element: CommandeElementInformations): ElementCommandeOutputApi {
     return {
-        produit: toProduitOutputApi(element.produit),
+        produit: produitInformationsVersProduitOutputApi(element.produit),
         quantite: element.quantité
     }
 }
 
-function toProduitOutputApi(produit: Produit) {
+function produitInformationsVersProduitOutputApi(produit: ProduitInformations) {
     return {
         id: produit.id,
         nom: produit.nom,

@@ -2,10 +2,11 @@ import {IResolvers} from "@graphql-tools/utils";
 import {CatalogueDependencyContainer} from "../configuration/catalogue.dependencyContainer";
 import {CommandeOutputApi} from "./commande/CommandeOutputApi";
 import {ErreurOutputApi} from "./shared/ErreurOuputApi";
-import {toCommandeOutputApi} from "./shared/mappingUtils";
+import {commandeVersCommandeOutputApi} from "../write/application/mappingUtils";
 import {ListeCommandeOutputApi} from "./commande/ListeCommandeOutputApi";
 import {ProduitOutputApi} from "./produit/ProduitOutputApi";
 import {AucunProduitTrouve} from "../read/domain/errors/AucunProduitTrouve";
+import {commandeInformationsVersCommandeOutputApi} from "../read/application/mappingUtils";
 
 //Todo: transformer cela en function
 export class Resolver {
@@ -56,7 +57,7 @@ export class Resolver {
             try {
                 const commandes = await _this.catalogueDependencyContainer.recupererLesCommandes.exécuter()
                 return {
-                    commandes: commandes.map(toCommandeOutputApi)
+                    commandes: commandes.map(commandeInformationsVersCommandeOutputApi)
                 }
             } catch (e) {
                 return {
@@ -68,7 +69,7 @@ export class Resolver {
         async recupererLaCommande(_: void, {id, ...args}): Promise<CommandeOutputApi | ErreurOutputApi> {
             try {
                 const commande = await _this.catalogueDependencyContainer.recupererLaCommande.exécuter(id)
-                return toCommandeOutputApi(commande)
+                return commandeInformationsVersCommandeOutputApi(commande)
             } catch (e) {
                 return {
                     __typename: 'CommandeNonTrouvee',
@@ -83,7 +84,7 @@ export class Resolver {
           return await _this.catalogueDependencyContainer.creerUnProduit.exécuter(produit.nom, produit.prix, produit.poids)
                 },
                 async sauvegarderCommande(_: void, {commande, ...args}): Promise<CommandeOutputApi> {
-                    return toCommandeOutputApi(await _this.catalogueDependencyContainer.creerUneCommande.exécuter(commande.elements))
+                    return commandeVersCommandeOutputApi(await _this.catalogueDependencyContainer.creerUneCommande.exécuter(commande.elements))
                 }
             },
           ResultatListeCommande: {

@@ -6,7 +6,7 @@ export enum StatutCommande {
     ANNULEE = 'ANNULEE'
 }
 
-export class CommandeElement {
+export class CommandeElementInformations {
     constructor(readonly id: string, readonly produit: ProduitInformations, readonly quantité: number) {}
 
     get produitId(): string {
@@ -18,7 +18,7 @@ export class CommandeElement {
 export default class CommandeInformations {
     readonly id: string;
     readonly statut: StatutCommande;
-    readonly elements: CommandeElement[];
+    readonly elements: CommandeElementInformations[];
 
     private constructor(id: string) {
         this.id = id
@@ -31,7 +31,7 @@ export default class CommandeInformations {
     }
 
     ajouterElement(id: string, produit: ProduitInformations, quantité: number): void {
-        this.elements.push(new CommandeElement(id, produit, quantité))
+        this.elements.push(new CommandeElementInformations(id, produit, quantité))
     }
 
     get poids(): number {
