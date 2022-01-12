@@ -1,7 +1,7 @@
-import createCatalogueDependencyContainer, {CatalogueDependencyContainer} from "../catalogue/configuration/catalogue.dependencyContainer";
+import createCatalogueDependencyContainer, {CatalogueDependenciesContainer} from "../catalogue/configuration/catalogueDependenciesContainer";
 
 export type ServerDependencyContainer = {
-	catalogueDependencyContainer: CatalogueDependencyContainer
+	catalogueDependencyContainer: CatalogueDependenciesContainer
 }
 
 export function createServerDependenciesContainer(): ServerDependencyContainer {

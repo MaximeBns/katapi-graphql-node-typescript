@@ -2,7 +2,7 @@ import fs from 'fs'
 import {makeExecutableSchema} from '@graphql-tools/schema'
 import {graphql} from 'graphql'
 import Resolver from "../../resolverMap";
-import {CatalogueDependencyContainer} from "../../../configuration/catalogue.dependencyContainer";
+import {CatalogueDependenciesContainer} from "../../../configuration/catalogueDependenciesContainer";
 
 //https://gist.github.com/nzaghini/e038ff05c60bc2c5435f8331f890cea4
 const recupererProduit = {
@@ -28,7 +28,7 @@ const catalogueContainer = {
   recupererLeProduit: recupererProduit,
   recupererLesProduits: recupérerLesProduits,
   creerUnProduit: creerProduit
-} as unknown as CatalogueDependencyContainer
+} as unknown as CatalogueDependenciesContainer
 
 const resolvers = new Resolver(catalogueContainer).getResolvers()
 

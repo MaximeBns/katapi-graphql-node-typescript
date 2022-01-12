@@ -1,4 +1,4 @@
-import DatabaseCommandeLoader from "../DatabaseCommandeLoader";
+import DatabaseCommandeAdapter from "../DatabaseCommandeAdapter";
 import assert from "assert";
 import {CommandeNonTrouvee} from "../../../domain/errors/CommandeNonTrouvee";
 import {createPostgresConnection} from "../../../../../configuration/database/createPostgresConnection";
@@ -7,9 +7,9 @@ import CommandeTypeORMEntity from "../../../../configuration/db/type-orm-entity/
 import TypeORMClient from "../../../../../configuration/database/TypeORMClient";
 import {uneCommandeInformationsAvecDeuxPommesEtTroisPoires, unePoire, unePomme} from "../../../configuration/__tests__/utils";
 
-describe('Read | DatabaseCommandeLoader',  () => {
+describe('Read | DatabaseCommandeAdapter',  () => {
     const typeORMClient = new TypeORMClient(createPostgresConnection())
-    const loader = new DatabaseCommandeLoader(typeORMClient)
+    const adapter = new DatabaseCommandeAdapter(typeORMClient)
 
     beforeEach(async () => {
         const produitsDisponibles = [unePomme(), unePoire()].map(fruit => ProduitTypeORMEntity.fromProduit(fruit))
@@ -49,7 +49,7 @@ describe('Read | DatabaseCommandeLoader',  () => {
             await typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).save(commandeEnBase))
 
             // When
-            const commande = await loader.récupérerCommande('id')
+            const commande = await adapter.récupérerCommande('id')
 
             // Then
             expect(commande).toEqual(uneCommandeInformationsAvecDeuxPommesEtTroisPoires())
@@ -58,7 +58,7 @@ describe('Read | DatabaseCommandeLoader',  () => {
         it('récupérerCommande lève une erreur lorsque la commande n\'existe pas', async () => {
             // When
             try {
-                await loader.récupérerCommande('id')
+                await adapter.récupérerCommande('id')
                 assert.fail()
             } catch (e) {
                 // Then
@@ -117,7 +117,7 @@ describe('Read | DatabaseCommandeLoader',  () => {
             await typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).save([commandeEnBase1, commandeEnBase2]))
 
             // When
-            const commandes = await loader.récupérerToutesLesCommandes()
+            const commandes = await adapter.récupérerToutesLesCommandes()
 
             // Then
             const commande1 = uneCommandeInformationsAvecDeuxPommesEtTroisPoires()

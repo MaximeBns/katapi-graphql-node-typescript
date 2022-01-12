@@ -1,5 +1,5 @@
 import {IResolvers} from "@graphql-tools/utils";
-import {CatalogueDependencyContainer} from "../configuration/catalogue.dependencyContainer";
+import {CatalogueDependenciesContainer} from "../configuration/catalogueDependenciesContainer";
 import {CommandeOutputApi} from "./commande/CommandeOutputApi";
 import {ErreurOutputApi} from "./shared/ErreurOuputApi";
 import {commandeVersCommandeOutputApi} from "../write/application/mappingUtils";
@@ -10,7 +10,7 @@ import {commandeInformationsVersCommandeOutputApi} from "../read/application/map
 
 //Todo: transformer cela en function
 export class Resolver {
-    constructor(private catalogueDependencyContainer: CatalogueDependencyContainer) {
+    constructor(private catalogueDependencyContainer: CatalogueDependenciesContainer) {
   }
 
     getResolvers(): IResolvers {

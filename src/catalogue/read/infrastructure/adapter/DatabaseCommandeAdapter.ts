@@ -6,7 +6,7 @@ import CommandeTypeORMEntity from "../../../configuration/db/type-orm-entity/com
 import ElementCommandeTypeORMEntity from "../../../configuration/db/type-orm-entity/elementCommandeTypeORMEntity";
 import ProduitTypeORMEntity from "../../../configuration/db/type-orm-entity/produitTypeORMEntity";
 
-export default class DatabaseCommandeLoader implements CommandePort {
+export default class DatabaseCommandeAdapter implements CommandePort {
     constructor(private typeORMClient: TypeORMClient) {}
 
     async récupérerCommande(id: string): Promise<CommandeInformations> {

@@ -1,9 +1,9 @@
 // @ts-nocheck
 import { ServerDependencyContainer } from "../serverDependencyContainer";
-import { CatalogueDependencyContainer } from "../../catalogue/configuration/catalogue.dependencyContainer";
+import { CatalogueDependenciesContainer } from "../../catalogue/configuration/catalogueDependenciesContainer";
 
 export function createFakeServerDependenciesContainer(): ServerDependencyContainer {
-    const catalogueDependencyContainer: CatalogueDependencyContainer = {
+    const catalogueDependencyContainer: CatalogueDependenciesContainer = {
         creerUnProduit: {exécuter: jest.fn()},
         recupererLeProduit: {exécuter: jest.fn()},
         recupererLesProduits: {exécuter: jest.fn()},

@@ -11,7 +11,7 @@ import http2 from "http2";
 import TypeORMClient from "../../../../configuration/database/TypeORMClient";
 import ProduitTypeORMEntity from "../../../configuration/db/type-orm-entity/produitTypeORMEntity";
 
-export default class DatabaseProduitLoader implements ProduitPort {
+export default class DatabaseProduitAdapter implements ProduitPort {
   constructor(private typeORMClient: TypeORMClient) {}
 
   async récupérerLesProduits(filtre?: FiltreProduit): Promise<ProduitInformations[]> {

@@ -1,13 +1,13 @@
-import DatabaseProduitLoader from "../DatabaseProduitLoader";
+import DatabaseProduitAdapter from "../DatabaseProduitAdapter";
 import ProduitInformations from "../../../domain/entities/produitInformations";
 import {FilteredProductFilled, FiltreProduit, OrderType} from "../../../usecases/recupererLesProduits/filtreProduit";
 import {createPostgresConnection} from "../../../../../configuration/database/createPostgresConnection";
 import ProduitTypeORMEntity from "../../../../configuration/db/type-orm-entity/produitTypeORMEntity";
 import TypeORMClient from "../../../../../configuration/database/TypeORMClient";
 
-describe('Read | DatabaseProduitLoader',  () => {
+describe('Read | DatabaseProduitAdapter',  () => {
     const typeORMClient = new TypeORMClient(createPostgresConnection())
-    const loader = new DatabaseProduitLoader(typeORMClient)
+    const adapter = new DatabaseProduitAdapter(typeORMClient)
 
     afterEach(async () => {
         await typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).delete({}))
@@ -20,7 +20,7 @@ describe('Read | DatabaseProduitLoader',  () => {
             await typeORMClient.executeQuery(connection => connection.getRepository(ProduitTypeORMEntity).save(pomme_db))
 
             // When
-            const pomme_récupérée = await loader.récupérerLeProduit('idPomme')
+            const pomme_récupérée = await adapter.récupérerLeProduit('idPomme')
 
             // Then
             const expected_pomme = ProduitInformations.creer('idPomme','Pomme',20,1)
@@ -63,7 +63,7 @@ describe('Read | DatabaseProduitLoader',  () => {
 
         it('renvoie la liste des produits en base s\'il n\'y a pas de filtre', async () => {
             // When
-            const produits_récupérés = await loader.récupérerLesProduits()
+            const produits_récupérés = await adapter.récupérerLesProduits()
 
             // Then
             expect(produits_récupérés).toEqual(produits)
@@ -105,7 +105,7 @@ describe('Read | DatabaseProduitLoader',  () => {
                                 }];
 
                                 // when
-                                const produitRetourné = await loader.récupérerLesProduits(filtre)
+                                const produitRetourné = await adapter.récupérerLesProduits(filtre)
 
                                 // then
                                 expect(produitRetourné).toEqual(produitsAttendus);
@@ -141,7 +141,7 @@ describe('Read | DatabaseProduitLoader',  () => {
                                 }];
 
                                 //When
-                                const produitRetourné = await loader.récupérerLesProduits(filtre)
+                                const produitRetourné = await adapter.récupérerLesProduits(filtre)
 
                                 //Then
                                 expect(produitRetourné).toEqual(produitsAttendus);
@@ -157,7 +157,7 @@ describe('Read | DatabaseProduitLoader',  () => {
                                     order: OrderType.Asc,
                                 }
                                 //When
-                                const produitRetourné = await loader.récupérerLesProduits(filtre)
+                                const produitRetourné = await adapter.récupérerLesProduits(filtre)
 
                                 //Then
                                 const produitsAttendus = [{
@@ -221,7 +221,7 @@ describe('Read | DatabaseProduitLoader',  () => {
                                 }].reverse();
 
                                 // when
-                                const produitRetourné = await loader.récupérerLesProduits(filtre)
+                                const produitRetourné = await adapter.récupérerLesProduits(filtre)
 
                                 // then
                                 expect(produitRetourné).toEqual(produitsAttendus);
@@ -261,7 +261,7 @@ describe('Read | DatabaseProduitLoader',  () => {
 
 
                                 //When
-                                const produitRetourné = await loader.récupérerLesProduits(filtre)
+                                const produitRetourné = await adapter.récupérerLesProduits(filtre)
 
                                 //Then
                                 expect(produitRetourné).toEqual(produitsAttendus);
@@ -300,7 +300,7 @@ describe('Read | DatabaseProduitLoader',  () => {
                                 }].reverse();
 
                                 //When
-                                const produitRetourné = await loader.récupérerLesProduits(filtre)
+                                const produitRetourné = await adapter.récupérerLesProduits(filtre)
 
                                 //Then
 
@@ -323,7 +323,7 @@ describe('Read | DatabaseProduitLoader',  () => {
                 }
 
                 // when
-                const produitRetourné = await loader.récupérerLesProduits(filter)
+                const produitRetourné = await adapter.récupérerLesProduits(filter)
 
                 // then
                 const produitsAttendus = [{

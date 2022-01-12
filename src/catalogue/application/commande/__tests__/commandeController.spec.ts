@@ -1,4 +1,4 @@
-import {CatalogueDependencyContainer} from "../../../configuration/catalogue.dependencyContainer";
+import {CatalogueDependenciesContainer} from "../../../configuration/catalogueDependenciesContainer";
 import Resolver from "../../resolverMap";
 import fs from "fs";
 import {makeExecutableSchema} from "@graphql-tools/schema";
@@ -9,7 +9,7 @@ import {uneCommandeInformationsAvecDeuxPommesEtTroisPoires} from "../../../read/
 
 
 describe('CommandeController', () => {
-    let catalogueDependencyContainer : CatalogueDependencyContainer
+    let catalogueDependencyContainer : CatalogueDependenciesContainer
     let schema: GraphQLSchema
 
     beforeEach(() => {
