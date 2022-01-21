@@ -23,7 +23,7 @@ export default class Commande {
     private constructor(id: string) {
         this.id = id
         this.statut = StatutCommande.EN_COURS
-        this.elements= []
+        this.elements = []
     }
 
     static init(id: string): Commande {

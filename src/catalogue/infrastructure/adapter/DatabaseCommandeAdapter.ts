@@ -19,8 +19,8 @@ export default class DatabaseCommandeAdapter implements CommandePort {
     }
 
     async récupérerToutesLesCommandes(): Promise<Commande[]> {
-        const commandesDeLaBase =  await this.typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).find({relations:['elements']}))
-        return await Promise.all(commandesDeLaBase.map(async commande => this.récupérerLaCommandeEnBase(commande)))
+        const commandesDeLaBase =  await this.typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).find())
+        return await Promise.all(commandesDeLaBase.map(async commande => Commande.init(commande.id)))
     }
 
     async sauvegarderCommande(commande: Commande): Promise<void> {

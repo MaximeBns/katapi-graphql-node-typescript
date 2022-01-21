@@ -1,7 +1,7 @@
 import {CommandeElement} from "../domain/entities/commande/commande";
 import Produit from "../domain/entities/produit";
 
-class RecupererLesElementsDUneCommande {
+export class RecupererLesElementsDUneCommande {
     constructor() {
     }
 

@@ -6,6 +6,7 @@ import {toCommandeOutputApi} from "./shared/mappingUtils";
 import {ListeCommandeOutputApi} from "./commande/ListeCommandeOutputApi";
 import {AucunProduitTrouve} from "../domain/errors/AucunProduitTrouve";
 import {ProduitOutputApi} from "./produit/ProduitOutputApi";
+import Commande from "../domain/entities/commande/commande";
 
 //Todo: transformer cela en function
 export class Resolver {
@@ -93,16 +94,11 @@ export class Resolver {
                 },
             },
             Commande: {
-                elements : async (_, __, ___) => {
-                    // get ids of launches by user
-                    const launchIds = await dataSources.userAPI.getLaunchIdsByUser();
-                    if (!launchIds.length) return [];
-                    // look up those launches by their ids
-                    return (
-                        dataSources.launchAPI.getLaunchesByIds({
-                            launchIds,
-                        }) || []
-                    );
+                elements : async (commande: CommandeOutputApi, __, ___) => {
+                    console.log("toto", commande, __, ___)
+                    const elementsRécupérés = await _this.catalogueDependencyContainer.recupererLesElementsDUneCommande.exécuter(commande.id);
+                    if (!elementsRécupérés.length) return [];
+                    return toCommandeOutputApi(elementsRécupérés);
                 }
             },
             ResultatProduit: {
