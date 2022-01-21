@@ -1,5 +1,5 @@
 import CommandePort from "../../domain/ports/commandePort";
-import Commande, {CommandeElement} from "../../domain/entities/commande/commande";
+import Commande, {CommandeElement, StatutCommande} from "../../domain/entities/commande/commande";
 import TypeORMClient from "../../../configuration/database/TypeORMClient";
 import CommandeTypeORMEntity from "../../configuration/db/type-orm-entity/commandeTypeORMEntity";
 import ElementCommandeTypeORMEntity from "../../configuration/db/type-orm-entity/elementCommandeTypeORMEntity";
@@ -20,7 +20,7 @@ export default class DatabaseCommandeAdapter implements CommandePort {
 
     async récupérerToutesLesCommandes(): Promise<Commande[]> {
         const commandesDeLaBase =  await this.typeORMClient.executeQuery(connection => connection.getRepository(CommandeTypeORMEntity).find())
-        return await Promise.all(commandesDeLaBase.map(async commande => Commande.init(commande.id)))
+        return await Promise.all(commandesDeLaBase.map(async commande => Commande.of(commande.id, StatutCommande[commande.statut], commande.poids, commande.fraisDePort, commande.montantTotal)))
     }
 
     async sauvegarderCommande(commande: Commande): Promise<void> {

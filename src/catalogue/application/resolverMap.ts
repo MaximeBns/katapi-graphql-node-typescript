@@ -2,7 +2,7 @@ import {IResolvers} from "@graphql-tools/utils";
 import {CatalogueDependencyContainer} from "../configuration/catalogue.dependencyContainer";
 import {CommandeOutputApi} from "./commande/CommandeOutputApi";
 import {ErreurOutputApi} from "./shared/ErreurOuputApi";
-import {toCommandeOutputApi} from "./shared/mappingUtils";
+import {toCommandeOutputApi, toElementCommandeOuputApi} from "./shared/mappingUtils";
 import {ListeCommandeOutputApi} from "./commande/ListeCommandeOutputApi";
 import {AucunProduitTrouve} from "../domain/errors/AucunProduitTrouve";
 import {ProduitOutputApi} from "./produit/ProduitOutputApi";
@@ -98,7 +98,7 @@ export class Resolver {
                     console.log("toto", commande, __, ___)
                     const elementsRécupérés = await _this.catalogueDependencyContainer.recupererLesElementsDUneCommande.exécuter(commande.id);
                     if (!elementsRécupérés.length) return [];
-                    return toCommandeOutputApi(elementsRécupérés);
+                    return elementsRécupérés.map(toElementCommandeOuputApi);
                 }
             },
             ResultatProduit: {

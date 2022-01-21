@@ -14,7 +14,7 @@ export function toCommandeOutputApi(commande: Commande): CommandeOutputApi {
     }
 }
 
-function toElementCommandeOuputApi(element: CommandeElement): ElementCommandeOutputApi {
+export function toElementCommandeOuputApi(element: CommandeElement): ElementCommandeOutputApi {
     return {
         produit: toProduitOutputApi(element.produit),
         quantite: element.quantité

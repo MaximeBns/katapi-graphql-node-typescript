@@ -16,35 +16,24 @@ export class CommandeElement {
 
 
 export default class Commande {
-    readonly id: string;
-    readonly statut: StatutCommande;
-    readonly elements: CommandeElement[];
+    private constructor(readonly id: string, readonly statut: StatutCommande, readonly elements: CommandeElement[], readonly poids: number, readonly fraisDePort: number, readonly montantTotal: number) {
 
-    private constructor(id: string) {
-        this.id = id
-        this.statut = StatutCommande.EN_COURS
-        this.elements = []
     }
 
-    static init(id: string): Commande {
-        return new Commande(id)
+    static init(id: string, statut: StatutCommande, poids: number, fraisDePort: number, montantTotal: number): Commande {
+        return new Commande(id, statut, null, poids, fraisDePort, montantTotal)
     }
+
+    static initAvecElements(id: string, statut: StatutCommande, elements: CommandeElement[]): Commande {
+        const poids = elements.map(element => element.produit.poids*element.quantité)
+                 .reduce((sum, current) => sum + current, 0)
+        const montant = elements.map(element => element.quantité*element.produit.prix)
+                 .reduce((sum, current) => sum + current, 0)
+        return new Commande(id, statut, elements, poids, 2.5*poids, montant)
+    }
+
 
     ajouterElement(id: string, produit: Produit, quantité: number): void {
         this.elements.push(new CommandeElement(id, produit, quantité))
-    }
-
-    get poids(): number {
-        return this.elements.map(element => element.produit.poids*element.quantité)
-            .reduce((sum, current) => sum + current, 0)
-    }
-
-    get fraisDePort(): number {
-        return 2.5*this.poids
-    }
-
-    get montantTotal(): number {
-        return this.elements.map(element => element.quantité*element.produit.prix)
-            .reduce((sum, current) => sum + current, 0)
     }
 }
